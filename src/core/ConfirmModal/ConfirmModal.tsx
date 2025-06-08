@@ -68,22 +68,18 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
             padding: '16px 24px',
           }}
         >
-          <Button
-          color="secondary"
-            onClick={onClose}
-            startIcon={cancelIcon}
-          >
+          <Button color="secondary" onClick={onClose} startIcon={cancelIcon}>
             {cancelText}
           </Button>
           {onConfirm && (
             <Button
-            color="primary"
-            variant="contained"
-            onClick={onConfirm}
-            startIcon={confirmIcon}
-          >
-            {confirmText}
-          </Button>
+              color="primary"
+              variant="contained"
+              onClick={onConfirm}
+              startIcon={confirmIcon}
+            >
+              {confirmText}
+            </Button>
           )}
         </DialogActions>
       )}

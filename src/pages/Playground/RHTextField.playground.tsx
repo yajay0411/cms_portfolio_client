@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { Email, VisibilityOff } from '@mui/icons-material';
 
-
 const RHTextFieldPlayground: React.FC = () => {
   const methods = useForm();
   const { handleSubmit } = methods;

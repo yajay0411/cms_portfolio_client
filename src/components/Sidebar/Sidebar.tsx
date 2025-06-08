@@ -22,7 +22,7 @@ import { Link } from 'react-router-dom';
 import { useAppContext } from '../../contexts/app.context';
 import { getRoutes } from '../../routes';
 import ConfirmModal from '../../core/ConfirmModal/ConfirmModal';
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@hooks/useAuth';
 import { ThemeContext } from '../../contexts/theme.context';
 import AuthApiService from '../../services/api/auth.api.service';
 import useToaster from '../../core/Toaster/Toaster';
@@ -71,7 +71,9 @@ export default function Sidebar({ drawerWidthInput = 240 }: SidebarProps) {
         setLogoutModalOpen(false);
         showToaster(message, { variant: 'success', CloseAction: true });
       });
-    } catch (error) {}
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const themeContext = useContext(ThemeContext);

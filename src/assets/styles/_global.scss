@@ -1,6 +1,6 @@
 /* _global.scss */
-@use "./variable" as *;
-@use "./mixins" as *;
+@use './variable' as *;
+@use './mixins' as *;
 
 // Responsive scaling factors
 $mobile-scale-factor: 0.85;
@@ -32,13 +32,16 @@ $tablet-breakpoint: 960px;
 }
 
 body {
-  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+  transition:
+    background-color 0.5s ease-in-out,
+    color 0.5s ease-in-out;
   font-family: $font-family;
 }
 
-#root, .app{
-  width:inherit;
-  height:inherit;
+#root,
+.app {
+  width: inherit;
+  height: inherit;
 }
 
 // Heading styles for desktop

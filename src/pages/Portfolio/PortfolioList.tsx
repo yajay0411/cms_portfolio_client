@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { ADMIN_PATH, USER_PATH } from '@constants/path';
 import ROLES from '@constants/roles';
-import useToaster from '@/core/Toaster/Toaster';
+import useToaster from '@core/Toaster/Toaster';
 import useNavigation from '@hooks/useNavigation';
 import PortfolioApiService from '@services/api/portfolio.api.service';
 
@@ -101,7 +101,7 @@ const PortfolioList: React.FC = () => {
   useEffect(() => {
     const debounceTimer = setTimeout(getPortfolios, 300);
     return () => clearTimeout(debounceTimer);
-  }, [paginationModel, sortModel, searchTerm, filterModel]);
+  }, [paginationModel, sortModel, searchTerm, filterModel, getPortfolios]);
 
   // Column definitions
   const columns: GridColDef[] = [

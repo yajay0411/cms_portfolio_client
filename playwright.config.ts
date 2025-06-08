@@ -23,7 +23,7 @@ export default defineConfig({
 
   /* Vite-compatible reporter */
   reporter: [
-    ['html', { outputFolder: 'test-results/reports' }],
+    ['html', { outputFolder: 'test-reports' }],
     process.env.CI ? ['github'] : ['list'],
   ],
 

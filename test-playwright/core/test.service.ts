@@ -1,4 +1,4 @@
-import { Page, BrowserContext, Locator } from '@playwright/test';
+import { Page, BrowserContext, Locator, Response } from '@playwright/test';
 import { Logger } from './utils/logger';
 import { captureFailureEvidence } from './utils/evidence-capture';
 import { retry } from './utils/retry-handler';
@@ -276,7 +276,7 @@ export class TestService {
     value?: string
   ): Promise<void> {
     const locator =
-      typeof selector === 'string' ? this.page.locator(selector) : selector;
+      typeof selector === 'string' ? this.getLocator(selector) : selector;
 
     await locator.waitFor({
       state: 'visible',
@@ -381,5 +381,64 @@ export class TestService {
     );
 
     return await createVideoContext(this.testName, videoDir, this.logger);
+  }
+
+  /**
+   * Wait for an API call and log its details
+   * @param urlPattern URL pattern to match (string or regex)
+   * @param options Additional options for the API call
+   * @returns The response object
+   */
+  async waitForApiCall(
+    urlPattern: string | RegExp,
+    options: {
+      method?: string;
+      status?: number;
+      timeout?: number;
+      logResponse?: boolean;
+    } = {}
+  ): Promise<{ response: Response; body: any }> {
+    const {
+      method = 'GET',
+      status = 200,
+      timeout = 20000,
+      logResponse = true,
+    } = options;
+
+    this.logger.info(`Waiting for API call: ${method} ${urlPattern}`);
+
+    const response = await this.page.waitForResponse(
+      async (res) => {
+        const url = res.url();
+        const matchesUrl =
+          typeof urlPattern === 'string'
+            ? url.includes(urlPattern)
+            : urlPattern.test(url);
+        return (
+          matchesUrl &&
+          res.request().method() === method &&
+          res.status() === status
+        );
+      },
+      { timeout }
+    );
+
+    let body = null;
+    try {
+      body = await response.json();
+    } catch (e) {
+      this.logger.warn('Failed to parse API response JSON:', e);
+    }
+
+    if (logResponse) {
+      this.logger.info('API Response:', {
+        url: response.url(),
+        status: response.status(),
+        method: response.request().method(),
+        body,
+      });
+    }
+
+    return { response, body };
   }
 }

@@ -1,10 +1,6 @@
 import * as yup from 'yup';
 
-const SUPPORTED_IMAGE_FORMATS = [
-  'image/jpg',
-  'image/jpeg',
-  'image/png',
-];
+const SUPPORTED_IMAGE_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
 export const LoginSchemaYup = yup.object().shape({
   emailAddress: yup
@@ -44,15 +40,15 @@ export const RegisterSchemaYup = yup.object().shape({
     .required('Password is required'),
 
   profile_image: yup
-  .mixed<File>()
-  .nullable()
-  .test('fileSize', 'File too large (max 2MB)', (value) => {
-    console.log(value)
-    return value ? value.size <= 5 * 1024 * 1024 : true;
-  })
-  .test('fileType', 'Unsupported image format', (value) => {
-    return value ? SUPPORTED_IMAGE_FORMATS.includes(value.type) : true;
-  }),
+    .mixed<File>()
+    .nullable()
+    .test('fileSize', 'File too large (max 2MB)', (value) => {
+      console.log(value);
+      return value ? value.size <= 5 * 1024 * 1024 : true;
+    })
+    .test('fileType', 'Unsupported image format', (value) => {
+      return value ? SUPPORTED_IMAGE_FORMATS.includes(value.type) : true;
+    }),
 
   consent: yup.boolean().oneOf([true], 'Consent is required'),
 });

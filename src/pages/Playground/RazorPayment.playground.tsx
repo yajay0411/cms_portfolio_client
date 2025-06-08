@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-const RazorPaymentPlayground:React.FC = () => {
-  return (
-    <div>RazorPayment.playground</div>
-  )
-}
+const RazorPaymentPlayground: React.FC = () => {
+  return <div>RazorPayment.playground</div>;
+};
 
 export default RazorPaymentPlayground;

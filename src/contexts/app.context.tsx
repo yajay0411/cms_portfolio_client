@@ -67,7 +67,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     await validateAuth();
   }, [validateAuth]);
 
-  const logout = useCallback(async() => {
+  const logout = useCallback(async () => {
     setIsAuthenticated(false);
     setUser(null);
     clearAllStorage();

@@ -14,10 +14,10 @@ const config: Config = {
         tsconfig: {
           jsx: 'react-jsx',
           esModuleInterop: true,
-          isolatedModules: true
-        }
-      }
-    ]
+          isolatedModules: true,
+        },
+      },
+    ],
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
@@ -28,9 +28,9 @@ const config: Config = {
     '^@pages/(.*)$': '<rootDir>/src/pages/$1',
     '^@hooks/(.*)$': '<rootDir>/src/hooks/$1',
     '^@utils/(.*)$': '<rootDir>/src/utils/$1',
-    '^@core/(.*)$': '<rootDir>/src/core/$1'
+    '^@core/(.*)$': '<rootDir>/src/core/$1',
   },
-  testPathIgnorePatterns: ['/node_modules/', '/dist/']
+  testPathIgnorePatterns: ['/node_modules/', '/dist/'],
 };
 
 export default config;

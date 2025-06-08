@@ -1,6 +1,5 @@
 // test_playwright/utils/createVideoContext.ts
 import { chromium, Browser, BrowserContext, Page } from '@playwright/test';
-import path from 'path';
 import fs from 'fs';
 import { Logger } from './logger';
 

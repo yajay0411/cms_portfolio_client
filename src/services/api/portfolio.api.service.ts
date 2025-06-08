@@ -2,10 +2,10 @@ import ApiService from '../../libs/Axios.Config';
 import api_endpoint from './api_endpoint';
 
 const PortfolioApiService = {
-  get: async (params:string) => {
+  get: async (params: string) => {
     try {
       const response = await ApiService.get<{ data: any; message: string }>(
-        api_endpoint.PORTFOLIO_API_ENDPOINT.GET_PORTFOLIOS+"?"+params
+        api_endpoint.PORTFOLIO_API_ENDPOINT.GET_PORTFOLIOS + '?' + params
       );
       return response;
     } catch (error) {
@@ -28,10 +28,10 @@ const PortfolioApiService = {
 
   create: async (data: any) => {
     try {
-      const response = await ApiService.uploadFile<{ data: any; message: string }>(
-        api_endpoint.PORTFOLIO_API_ENDPOINT.CREATE_PORTFOLIO,
-        data
-      );
+      const response = await ApiService.uploadFile<{
+        data: any;
+        message: string;
+      }>(api_endpoint.PORTFOLIO_API_ENDPOINT.CREATE_PORTFOLIO, data);
       return response;
     } catch (error) {
       console.error('Create portfolio failed', error);
@@ -41,10 +41,10 @@ const PortfolioApiService = {
 
   edit: async (id: string, data: any) => {
     try {
-      const response = await ApiService.uploadFile<{ data: any; message: string }>(
-        api_endpoint.PORTFOLIO_API_ENDPOINT.EDIT_PORTFOLIO(id),
-        data
-      );
+      const response = await ApiService.uploadFile<{
+        data: any;
+        message: string;
+      }>(api_endpoint.PORTFOLIO_API_ENDPOINT.EDIT_PORTFOLIO(id), data);
       return response;
     } catch (error) {
       console.error('Edit portfolio failed', error);
