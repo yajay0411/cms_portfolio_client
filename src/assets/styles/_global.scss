@@ -1,0 +1,127 @@
+/* _global.scss */
+@use "./variable" as *;
+@use "./mixins" as *;
+
+// Responsive scaling factors
+$mobile-scale-factor: 0.85;
+$tablet-scale-factor: 0.9;
+
+// Breakpoints
+$mobile-breakpoint: 600px;
+$tablet-breakpoint: 960px;
+
+:root {
+  // Light Theme
+  --primary-light: #{$primary-light};
+  --secondary-light: #{$secondary-light};
+  --background-light: #{$background-light};
+  --paper-light: #{$paper-light};
+  --text-primary-light: #{$text-primary-light};
+  --text-secondary-light: #{$text-secondary-light};
+
+  // Dark Theme
+  --primary-dark: #{$primary-dark};
+  --secondary-dark: #{$secondary-dark};
+  --background-dark: #{$background-dark};
+  --paper-dark: #{$paper-dark};
+  --text-primary-dark: #{$text-primary-dark};
+  --text-secondary-dark: #{$text-secondary-dark};
+
+  // Font Family
+  --font-family: #{$font-family};
+}
+
+body {
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+  font-family: $font-family;
+}
+
+#root, .app{
+  width:inherit;
+  height:inherit;
+}
+
+// Heading styles for desktop
+h1 {
+  font-size: $font-size-h1;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: $font-size-h2;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: $font-size-h3;
+  font-weight: 500;
+}
+
+h4 {
+  font-size: $font-size-h4;
+  font-weight: 500;
+}
+
+h5 {
+  font-size: $font-size-h5;
+  font-weight: 400;
+}
+
+h6 {
+  font-size: $font-size-h6;
+  font-weight: 400;
+}
+
+// Mobile responsive typography
+@media (max-width: $mobile-breakpoint) {
+  h1 {
+    font-size: calc(#{$font-size-h1} * #{$mobile-scale-factor});
+  }
+
+  h2 {
+    font-size: calc(#{$font-size-h2} * #{$mobile-scale-factor});
+  }
+
+  h3 {
+    font-size: calc(#{$font-size-h3} * #{$mobile-scale-factor});
+  }
+
+  h4 {
+    font-size: calc(#{$font-size-h4} * #{$mobile-scale-factor});
+  }
+
+  h5 {
+    font-size: calc(#{$font-size-h5} * #{$mobile-scale-factor});
+  }
+
+  h6 {
+    font-size: calc(#{$font-size-h6} * #{$mobile-scale-factor});
+  }
+}
+
+// Tablet responsive typography
+@media (min-width: #{$mobile-breakpoint + 1px}) and (max-width: $tablet-breakpoint) {
+  h1 {
+    font-size: calc(#{$font-size-h1} * #{$tablet-scale-factor});
+  }
+
+  h2 {
+    font-size: calc(#{$font-size-h2} * #{$tablet-scale-factor});
+  }
+
+  h3 {
+    font-size: calc(#{$font-size-h3} * #{$tablet-scale-factor});
+  }
+
+  h4 {
+    font-size: calc(#{$font-size-h4} * #{$tablet-scale-factor});
+  }
+
+  h5 {
+    font-size: calc(#{$font-size-h5} * #{$tablet-scale-factor});
+  }
+
+  h6 {
+    font-size: calc(#{$font-size-h6} * #{$tablet-scale-factor});
+  }
+}

@@ -1,0 +1,12 @@
+version: '3'
+services:
+  cms_portfolio_client:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.devcls
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src:/app/src
+    env_file:
+      - ./.env.dev
