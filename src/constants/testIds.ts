@@ -8,5 +8,6 @@ export const TEST_IDS = {
     themeToggle: 'theme-toggle',
     showPassword: 'show-password',
     hidePassword: 'hide-password',
+    snackbarForgotPassward: 'snackbar-forgot-password',
   },
 } as const;

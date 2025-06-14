@@ -6,13 +6,11 @@ import {
   attachConsoleListener,
   IConsoleLogEntry,
 } from './utils/console-listener';
-import {
-  setupNetworkFailureCapture,
-  INetworkFailureEntry,
-} from './utils/network-monitor';
 import { ConfigManager } from './config-manager';
 import path from 'path';
 import { createVideoContext } from './utils/video-capture';
+import { NetworkLogger } from './utils/network-logger';
+import fs from 'fs';
 
 export interface LocatorOptions {
   /** Text content to filter by */
@@ -63,6 +61,9 @@ export interface LocatorOptions {
     | 'unchecked';
 }
 
+/**
+ * Service class for handling test operations and utilities
+ */
 export class TestService {
   readonly page: Page;
   readonly context: BrowserContext;
@@ -70,34 +71,75 @@ export class TestService {
   readonly logger: Logger;
   readonly configManager: ConfigManager;
   private readonly testName: string;
-  private readonly consoleLogs: IConsoleLogEntry[] = [];
-  private readonly networkFailures: INetworkFailureEntry[] = [];
+  private readonly testSuite: string;
+  // private readonly consoleLogs: IConsoleLogEntry[] = [];
+  private readonly networkLogger: NetworkLogger;
+  private readonly baseOutputPath: string;
+  private readonly networkFailures: Array<{
+    url: string;
+    status: number;
+    method: string;
+    timestamp: string;
+  }> = [];
 
+  /**
+   * Creates a new instance of TestService
+   * @param options Configuration options for the test service
+   * @param options.page Playwright Page object
+   * @param options.context Playwright BrowserContext object
+   * @param options.browserName Name of the browser being used
+   * @param options.testName Name of the current test
+   * @param options.testSuite Name of the test suite
+   * @param options.configManager Optional ConfigManager instance
+   */
   constructor(options: {
     page: Page;
     context: BrowserContext;
     browserName: string;
     testName: string;
+    testSuite: string;
     configManager?: ConfigManager;
   }) {
-    const { page, context, browserName, testName, configManager } = options;
+    const { page, context, browserName, testName, testSuite, configManager } =
+      options;
     this.page = page;
     this.context = context;
     this.browserName = browserName;
     this.testName = testName;
+    this.testSuite = testSuite;
     this.configManager = configManager || new ConfigManager();
+
+    this.baseOutputPath = this.configManager.get(
+      'reporting.outputPath',
+      'reports'
+    );
+    const testCasePath = path.join(this.baseOutputPath, testSuite, testName);
+
+    // Create main test case directory
+    fs.mkdirSync(testCasePath, { recursive: true });
+
+    // Create subdirectories for different types of logs
+    fs.mkdirSync(path.join(testCasePath, 'console-logs'), { recursive: true });
+    fs.mkdirSync(path.join(testCasePath, 'screenshots'), { recursive: true });
+    fs.mkdirSync(path.join(testCasePath, 'videos'), { recursive: true });
+
     this.logger = new Logger({
       logLevel: 'debug',
       logToFile: true,
-      logFilePath: `${this.configManager.get('reporting.outputPath', 'reports')}/logs`,
+      logFilePath: path.join(testCasePath, 'console-logs'),
     });
 
-    attachConsoleListener(this.page, this.consoleLogs);
-    setupNetworkFailureCapture(this.page, this.networkFailures);
+    this.networkLogger = new NetworkLogger(
+      this.baseOutputPath,
+      testSuite,
+      testName
+    );
+
+    // attachConsoleListener(this.page, this.consoleLogs);
   }
 
   /**
-   * Get a locator by test ID or a combination of filtering options.
+   * Get a locator by test ID or a combination of filtering options
    * @param testId Optional test ID to start the locator from
    * @param options Locator options to refine the search
    * @returns A Playwright Locator
@@ -206,13 +248,15 @@ export class TestService {
     return locator;
   }
 
-  attachNetworkLogging(enabled: boolean): void {
-    if (enabled) {
-      setupNetworkFailureCapture(this.page, this.networkFailures);
-      this.logger.info('Network failure capture enabled');
-    }
-  }
-
+  /**
+   * Execute an action with error handling and retry logic
+   * @param action The action to execute
+   * @param options Configuration options for the action
+   * @param options.actionName Name of the action being performed
+   * @param options.captureEvidence Whether to capture screenshots on success/failure
+   * @param options.retryOptions Retry configuration options
+   * @returns Promise that resolves when the action completes
+   */
   async tryCatchHandler(
     action: () => Promise<void>,
     options: {
@@ -237,8 +281,11 @@ export class TestService {
           if (shouldCaptureEvidence) {
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
             const screenshotPath = path.join(
-              `${this.configManager.get('reporting.outputPath', 'reports')}/screenshots`,
-              `${this.testName}-${actionName.replace(/\s+/g, '_')}-success-${timestamp}.png`
+              this.baseOutputPath,
+              this.testSuite,
+              this.testName,
+              'screenshots',
+              `${actionName.replace(/\s+/g, '_')}-success-${timestamp}.png`
             );
             await captureFailureEvidence(
               this.page,
@@ -252,8 +299,11 @@ export class TestService {
           if (shouldCaptureEvidence) {
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
             const screenshotPath = path.join(
-              this.configManager.get('reporting.outputPath', 'reports'),
-              `${this.testName}-${actionName.replace(/\s+/g, '_')}-error-${timestamp}.png`
+              this.baseOutputPath,
+              this.testSuite,
+              this.testName,
+              'screenshots',
+              `${actionName.replace(/\s+/g, '_')}-error-${timestamp}.png`
             );
             await captureFailureEvidence(
               this.page,
@@ -270,6 +320,13 @@ export class TestService {
     );
   }
 
+  /**
+   * Handle input actions on elements (fill, click, type)
+   * @param selector Element selector or locator
+   * @param action Type of input action to perform
+   * @param value Optional value for fill/type actions
+   * @returns Promise that resolves when the input action completes
+   */
   async handleInput(
     selector: string | Locator,
     action: 'fill' | 'click' | 'type',
@@ -301,6 +358,12 @@ export class TestService {
     }
   }
 
+  /**
+   * Highlight an element for debugging purposes
+   * @param testId Test ID of the element to highlight
+   * @param capture Whether to capture a screenshot of the highlighted element
+   * @returns Promise that resolves when the highlight operation completes
+   */
   async debugHighlight(
     testId: string,
     capture: boolean = false
@@ -332,8 +395,11 @@ export class TestService {
       // Take screenshot
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
       const screenshotPath = path.join(
-        this.configManager.get('reporting.outputPath', 'reports'),
-        `${this.testName}-${testId}-${timestamp}.png`
+        this.baseOutputPath,
+        this.testSuite,
+        this.testName,
+        'screenshots',
+        `${testId}-${timestamp}.png`
       );
 
       await elementHandle.screenshot({ path: screenshotPath });
@@ -350,9 +416,18 @@ export class TestService {
     });
   }
 
-  async highlightMultipleAndCapture(testIds: string[]): Promise<void> {
+  /**
+   * Highlight multiple elements and capture a screenshot
+   * @param testIds Array of test IDs to highlight
+   * @returns Promise that resolves when all elements are highlighted and screenshot is captured
+   */
+  async highlightMultipleAndCapture(
+    testIds: (string | LocatorOptions)[]
+  ): Promise<void> {
     for (const id of testIds) {
-      const locator = this.getLocator(id);
+      const locator =
+        typeof id === 'string' ? this.getLocator(id) : this.getLocator('', id);
+
       await locator.waitFor({ state: 'visible', timeout: 10000 });
       const handle = await locator.elementHandle();
       if (!handle) continue;
@@ -366,18 +441,28 @@ export class TestService {
     await this.page.waitForTimeout(200);
 
     const screenshotPath = path.join(
-      `${this.configManager.get('reporting.outputPath', 'reports')}/screenshots`,
-      `${this.testName}-highlighted-all-ss-${new Date().toISOString().replace(/[:.]/g, '-')}.png`
+      this.baseOutputPath,
+      this.testSuite,
+      this.testName,
+      'screenshots',
+      `highlighted-all-ss-${new Date().toISOString().replace(/[:.]/g, '-')}.png`
     );
 
     await this.page.screenshot({ path: screenshotPath, fullPage: true });
   }
 
+  /**
+   * Create a video context for recording test execution
+   * @param title Optional title for the video recording
+   * @returns Promise resolving to video context object with page, context, and cleanup function
+   */
   async createVideoContext(title: string = '') {
     const videoDir = path.join(
-      this.configManager.get('reporting.outputPath', 'reports'),
+      this.baseOutputPath,
+      this.testSuite,
+      this.testName,
       'videos',
-      `${this.testName}-${title}-${new Date().toISOString().replace(/[:.]/g, '-')}`
+      `${title}-${new Date().toISOString().replace(/[:.]/g, '-')}`
     );
 
     return await createVideoContext(this.testName, videoDir, this.logger);
@@ -387,7 +472,11 @@ export class TestService {
    * Wait for an API call and log its details
    * @param urlPattern URL pattern to match (string or regex)
    * @param options Additional options for the API call
-   * @returns The response object
+   * @param options.method HTTP method to match
+   * @param options.status Expected HTTP status code
+   * @param options.timeout Maximum time to wait for the API call
+   * @param options.logResponse Whether to log response details
+   * @returns Promise resolving to response object and parsed body
    */
   async waitForApiCall(
     urlPattern: string | RegExp,
@@ -400,7 +489,7 @@ export class TestService {
   ): Promise<{ response: Response; body: any }> {
     const {
       method = 'GET',
-      status = 200,
+      status,
       timeout = 20000,
       logResponse = true,
     } = options;
@@ -408,17 +497,15 @@ export class TestService {
     this.logger.info(`Waiting for API call: ${method} ${urlPattern}`);
 
     const response = await this.page.waitForResponse(
-      async (res) => {
+      (res) => {
         const url = res.url();
         const matchesUrl =
           typeof urlPattern === 'string'
             ? url.includes(urlPattern)
             : urlPattern.test(url);
-        return (
-          matchesUrl &&
-          res.request().method() === method &&
-          res.status() === status
-        );
+        const matchesMethod = res.request().method() === method;
+        const matchesStatus = !status || res.status() === status;
+        return matchesUrl && matchesMethod && matchesStatus;
       },
       { timeout }
     );
@@ -430,15 +517,26 @@ export class TestService {
       this.logger.warn('Failed to parse API response JSON:', e);
     }
 
+    // Log the network call
+    await this.networkLogger.logResponse(response, body);
+
+    // Add API call to network failures collector
+    this.networkFailures.push({
+      url: response.url(),
+      status: response.status(),
+      method: response.request().method(),
+      timestamp: new Date().toISOString(),
+    });
+
     if (logResponse) {
-      this.logger.info('API Response:', {
-        url: response.url(),
-        status: response.status(),
-        method: response.request().method(),
-        body,
-      });
+      this.logger.info('API Response (url):', { url: response.url() });
+      this.logger.info('API Response (status):', { status: response.status() });
     }
 
     return { response, body };
+  }
+
+  async waitForTimeout(ms: number): Promise<void> {
+    await this.page.waitForTimeout(ms);
   }
 }

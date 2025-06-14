@@ -58,9 +58,18 @@ const Login: FC = () => {
       if (!success) {
         return new Error(message);
       }
-      showToaster(message, { variant: 'success', CloseAction: true });
+      showToaster(message, {
+        variant: 'success',
+        CloseAction: true,
+        className: TEST_IDS.login.snackbarForgotPassward,
+      });
     } catch (error: any) {
-      showToaster(error.message, { variant: 'error', CloseAction: true });
+      showToaster(error.message, {
+        variant: 'error',
+        CloseAction: true,
+        className: TEST_IDS.login.snackbarForgotPassward,
+        autoHideDuration: 10000,
+      });
     } finally {
       setIsLoading(false);
     }

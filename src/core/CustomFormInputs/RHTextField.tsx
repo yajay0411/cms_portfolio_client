@@ -17,8 +17,18 @@ import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import type { FormHelperTextProps } from '@mui/material/FormHelperText';
 
 import { Controller, useFormContext } from 'react-hook-form';
+
+// Extend FormHelperTextProps to include data-testid
+interface ExtendedFormHelperTextProps extends FormHelperTextProps {
+  'data-testid'?: string;
+}
+
+interface ExtendedSlotProps {
+  formHelperText?: ExtendedFormHelperTextProps;
+}
 
 type InputTypes =
   | 'text'
@@ -258,6 +268,13 @@ const RHTextField: React.FC<RHTextFieldProps> = memo(
                 variant={variant}
                 error={!!error || !!fileError}
                 helperText={error?.message || fileError}
+                slotProps={
+                  {
+                    formHelperText: {
+                      'data-testid': `${testId}-error`,
+                    },
+                  } as ExtendedSlotProps
+                }
                 InputProps={{
                   endAdornment: icon && iconPosition === 'end' && (
                     <InputAdornment position="end">

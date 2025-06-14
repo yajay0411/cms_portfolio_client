@@ -10,7 +10,7 @@ import Stack from '@mui/material/Stack';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import AttachFile from '@mui/icons-material/AttachFile';
+import AttachFileIcon from '@mui/icons-material/AttachFileOutlined';
 
 import {
   RegisterSchema,
@@ -115,7 +115,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading, onSubmit }) => {
             name="profile_image"
             label="Profile Picture (Optional)"
             type="file"
-            icon={<AttachFile />}
+            icon={<AttachFileIcon />}
             iconPosition="start"
             fileInputOptions={{
               accept: '.png, .jpg, .jpeg',
