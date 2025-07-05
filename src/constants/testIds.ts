@@ -10,4 +10,16 @@ export const TEST_IDS = {
     hidePassword: 'hide-password',
     snackbarForgotPassward: 'snackbar-forgot-password',
   },
+  register: {
+    nameInput: 'name-input',
+    emailInput: 'email-input',
+    phoneNumberInput: 'phone-number-input',
+    passwordInput: 'password-input',
+    profileImageInput: 'profile-image-input',
+    consentCheckbox: 'consent-checkbox',
+    registerButton: 'register-button',
+    loginLink: 'login-link',
+    themeToggle: 'theme-toggle',
+    snackbarUserEmailAlreadyExist: 'snackbar-user-email-already-exist',
+  },
 } as const;

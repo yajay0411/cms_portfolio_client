@@ -15,6 +15,7 @@
       "@hooks/*": ["hooks/*"],
       "@services/*": ["services/*"],
       "@constants/*": ["constants/*"],
+      "@contexts/*": ["contexts/*"],
       "@test_playwright/*": ["test_playwright/*"]
     },
 

@@ -11,7 +11,7 @@ interface ILayoutProps {
 const Layout: React.FC<ILayoutProps> = ({ children }) => {
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
-      <Stack direction={false ? 'column' : 'row'} p={2}>
+      <Stack direction={'column'} p={2}>
         <Sidebar />
         <Paper
           sx={{

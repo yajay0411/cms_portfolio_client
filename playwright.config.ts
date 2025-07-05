@@ -30,7 +30,7 @@ export default defineConfig({
   use: {
     baseURL: process.env.VITE_CLIENT_BASE_URL,
 
-    video: 'off',
+    video: 'on-first-retry',
 
     screenshot: 'only-on-failure',
 

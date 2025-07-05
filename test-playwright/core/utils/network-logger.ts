@@ -52,7 +52,8 @@ export class NetworkLogger {
     let responseBody;
     try {
       responseBody = await response.json();
-    } catch (e) {
+    } catch (err) {
+      console.log(err);
       responseBody = await response.text();
     }
 

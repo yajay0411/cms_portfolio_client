@@ -18,7 +18,10 @@ import Typography from '@mui/material/Typography';
 
 import LoginForm from './LoginForm';
 import { LoginSchema } from '../../validations/auth.validation';
-import { ThemeContext } from '../../contexts/theme.context';
+import {
+  ThemeContext,
+  type ThemeContextType,
+} from '../../contexts/theme.context';
 
 const Login: FC = () => {
   const navigate = useNavigate();
@@ -27,7 +30,7 @@ const Login: FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const themeContext = useContext(ThemeContext);
+  const themeContext = useContext(ThemeContext) as ThemeContextType;
 
   const onSubmit = async (formData: LoginSchema) => {
     setIsLoading(true);
@@ -40,9 +43,11 @@ const Login: FC = () => {
       const { user } = data;
       await onLogin({ user });
       showToaster(message, { variant: 'success', CloseAction: true });
-      user.role === ROLES.ADMIN
-        ? navigate(ADMIN_PATH.dashboard)
-        : navigate(USER_PATH.portfolio);
+      if (user.role === ROLES.ADMIN) {
+        navigate(ADMIN_PATH.dashboard);
+      } else {
+        navigate(USER_PATH.portfolio);
+      }
     } catch (error: any) {
       showToaster(error.message, { variant: 'error', CloseAction: true });
       setIsLoading(false);

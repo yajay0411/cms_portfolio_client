@@ -43,6 +43,7 @@ const AddPortfolio: React.FC = () => {
 
     PortfolioApiService.create(formData)
       .then((_response) => {
+        console.log(_response);
         methods.reset();
         goTo(ADMIN_PATH.portfolio);
       })

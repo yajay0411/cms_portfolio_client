@@ -437,7 +437,7 @@ test.describe('Login Page Tests', () => {
     );
   });
 
-  test.only('should show validation error for forgot password email', async ({
+  test('should show validation error for forgot password email', async ({
     page,
     context,
     browserName,

@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import RegisterForm from './RegisterForm';
 import { ThemeContext } from '../../contexts/theme.context';
 import { RegisterSchema } from '../../validations/auth.validation';
+import { TEST_IDS } from '@constants/testIds';
 
 const Register: React.FC = () => {
   const { goTo } = useNavigation();
@@ -45,7 +46,11 @@ const Register: React.FC = () => {
       goTo(PATH.login);
       showToaster(message, { variant: 'success', CloseAction: true });
     } catch (error: any) {
-      showToaster(error.message, { variant: 'error', CloseAction: true });
+      showToaster(error.message, {
+        variant: 'error',
+        CloseAction: true,
+        className: TEST_IDS.register.snackbarUserEmailAlreadyExist,
+      });
       setIsLoading(false);
     }
   };
@@ -74,7 +79,7 @@ const Register: React.FC = () => {
 
         <Typography variant="body2" sx={{ mb: 5 }}>
           Have an account?
-          <NavLink to={PATH.login}>
+          <NavLink to={PATH.login} data-testid={TEST_IDS.register.loginLink}>
             <Tooltip title="Go to Log in" arrow placement="top">
               <Typography component={'span'} color="secondary">
                 {' '}
@@ -90,6 +95,7 @@ const Register: React.FC = () => {
             checked={themeContext?.themeMode === 'dark' ? true : false}
             onChange={() => themeContext?.toggleTheme()}
             sx={{ position: 'absolute', top: 10, right: 10 }}
+            data-testid={TEST_IDS.register.themeToggle}
           />
         </Tooltip>
         <RegisterForm onSubmit={onSubmit} isLoading={isLoading} />

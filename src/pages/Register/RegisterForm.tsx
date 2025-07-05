@@ -10,12 +10,13 @@ import Stack from '@mui/material/Stack';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import AttachFileIcon from '@mui/icons-material/AttachFileOutlined';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 import {
   RegisterSchema,
   RegisterSchemaYup,
 } from '../../validations/auth.validation';
+import { TEST_IDS } from '../../constants/testIds';
 
 interface RegisterFormProps {
   onSubmit: ({
@@ -60,22 +61,23 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading, onSubmit }) => {
             label="Name"
             placeholder="Enter name"
             fullWidth
+            testId={TEST_IDS.register.nameInput}
           />
           <RHTextField
             variant="outlined"
             name="emailAddress"
             label="Email address"
             placeholder="Enter email address"
-            required
             fullWidth
+            testId={TEST_IDS.register.emailInput}
           />
           <RHTextField
             variant="outlined"
             name="phoneNumber"
             label="Phone Number"
             placeholder="Enter phone number"
-            required
             fullWidth
+            testId={TEST_IDS.register.phoneNumberInput}
           />
           <RHTextField
             variant="outlined"
@@ -109,6 +111,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading, onSubmit }) => {
             iconPosition="end"
             onIconClick={() => setShowPassword(!showPassword)}
             fullWidth
+            testId={TEST_IDS.register.passwordInput}
           />
           <RHTextField
             variant="outlined"
@@ -124,8 +127,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading, onSubmit }) => {
             }}
             enableDragDrop={true}
             fullWidth
+            testId={TEST_IDS.register.profileImageInput}
             onChange={(e) => {
-              console.log(e);
               const file = e.target.files?.[0] || null;
               methods.setValue('profile_image', file);
             }}
@@ -136,6 +139,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading, onSubmit }) => {
             name="consent"
             label="I agree to the terms and conditions"
             fullWidth
+            testId={TEST_IDS.register.consentCheckbox}
           />
         </Stack>
 
@@ -147,6 +151,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading, onSubmit }) => {
             variant="contained"
             sx={{ mt: 4, fontWeight: 700 }}
             loading={isLoading}
+            data-testId={TEST_IDS.register.registerButton}
           >
             Register
           </Button>

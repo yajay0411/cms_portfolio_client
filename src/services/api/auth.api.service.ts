@@ -3,105 +3,65 @@ import api_endpoint from './api_endpoint';
 
 const AuthApiService = {
   register: async (payload: any) => {
-    try {
-      const response = await ApiService.uploadFile<{
-        success: boolean;
-        data: any;
-        message: string;
-      }>(api_endpoint.AUTH_API_ENDPOINT.REGISTER, payload);
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    return await ApiService.uploadFile<{
+      success: boolean;
+      data: any;
+      message: string;
+    }>(api_endpoint.AUTH_API_ENDPOINT.REGISTER, payload);
   },
 
   login: async (payload: any) => {
-    try {
-      const response = await ApiService.post<{
-        success: boolean;
-        data: any;
-        message: string;
-      }>(api_endpoint.AUTH_API_ENDPOINT.LOGIN, payload);
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    return await ApiService.post<{
+      success: boolean;
+      data: any;
+      message: string;
+    }>(api_endpoint.AUTH_API_ENDPOINT.LOGIN, payload);
   },
 
   logout: async () => {
-    try {
-      const response = await ApiService.put<{
-        success: boolean;
-        data: any;
-        message: string;
-      }>(api_endpoint.AUTH_API_ENDPOINT.LOGOUT);
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    return await ApiService.put<{
+      success: boolean;
+      data: any;
+      message: string;
+    }>(api_endpoint.AUTH_API_ENDPOINT.LOGOUT);
   },
 
   selfIdentification: async () => {
-    try {
-      const response = await ApiService.get<{
-        success: boolean;
-        data: any;
-        message: string;
-      }>(api_endpoint.AUTH_API_ENDPOINT.SELF_IDENTIFICATION);
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    return await ApiService.get<{
+      success: boolean;
+      data: any;
+      message: string;
+    }>(api_endpoint.AUTH_API_ENDPOINT.SELF_IDENTIFICATION);
   },
 
   refreshToken: async () => {
-    try {
-      const response = await ApiService.get<{
-        success: boolean;
-        message: string;
-      }>(api_endpoint.AUTH_API_ENDPOINT.REFRESH);
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    return await ApiService.get<{
+      success: boolean;
+      message: string;
+    }>(api_endpoint.AUTH_API_ENDPOINT.REFRESH);
   },
 
   confirmationAccount: async (token: string, code: string) => {
-    try {
-      const response = await ApiService.put<{
-        success: boolean;
-        message: string;
-      }>(
-        `${api_endpoint.AUTH_API_ENDPOINT.CONFIRMATION_ACCOUNT(token)}?code=${code}`
-      );
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    return await ApiService.put<{
+      success: boolean;
+      message: string;
+    }>(
+      `${api_endpoint.AUTH_API_ENDPOINT.CONFIRMATION_ACCOUNT(token)}?code=${code}`
+    );
   },
 
   forgotPassword: async (payload: any) => {
-    try {
-      const response = await ApiService.put<{
-        success: boolean;
-        message: string;
-      }>(api_endpoint.AUTH_API_ENDPOINT.FORGET_PASSWORD, payload);
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    return await ApiService.put<{
+      success: boolean;
+      message: string;
+    }>(api_endpoint.AUTH_API_ENDPOINT.FORGET_PASSWORD, payload);
   },
 
   resetPassword: async (token: string, data: any) => {
-    try {
-      const response = await ApiService.put<{
-        success: boolean;
-        message: string;
-      }>(api_endpoint.AUTH_API_ENDPOINT.RESET_PASSWORD(token), data);
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    return await ApiService.put<{
+      success: boolean;
+      message: string;
+    }>(api_endpoint.AUTH_API_ENDPOINT.RESET_PASSWORD(token), data);
   },
 };
 

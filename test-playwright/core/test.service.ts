@@ -2,10 +2,6 @@ import { Page, BrowserContext, Locator, Response } from '@playwright/test';
 import { Logger } from './utils/logger';
 import { captureFailureEvidence } from './utils/evidence-capture';
 import { retry } from './utils/retry-handler';
-import {
-  attachConsoleListener,
-  IConsoleLogEntry,
-} from './utils/console-listener';
 import { ConfigManager } from './config-manager';
 import path from 'path';
 import { createVideoContext } from './utils/video-capture';
@@ -72,7 +68,6 @@ export class TestService {
   readonly configManager: ConfigManager;
   private readonly testName: string;
   private readonly testSuite: string;
-  // private readonly consoleLogs: IConsoleLogEntry[] = [];
   private readonly networkLogger: NetworkLogger;
   private readonly baseOutputPath: string;
   private readonly networkFailures: Array<{
@@ -134,8 +129,6 @@ export class TestService {
       testSuite,
       testName
     );
-
-    // attachConsoleListener(this.page, this.consoleLogs);
   }
 
   /**
@@ -433,7 +426,7 @@ export class TestService {
       if (!handle) continue;
 
       await handle.evaluate((el) => {
-        el.style.outline = '1px solid red';
+        el.style.outline = '1px solid blue';
       });
     }
 

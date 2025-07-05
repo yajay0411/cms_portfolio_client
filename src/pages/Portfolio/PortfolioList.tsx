@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import { ADMIN_PATH, USER_PATH } from '@constants/path';
 import ROLES from '@constants/roles';
@@ -46,7 +46,7 @@ const PortfolioList: React.FC = () => {
   });
 
   // Handle data fetching
-  const getPortfolios = async () => {
+  const getPortfolios = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams({
@@ -74,7 +74,7 @@ const PortfolioList: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [paginationModel, sortModel, searchTerm, filterModel, showToaster]);
 
   const handleCreatePortfolio = async () => {
     goTo(Path.add_portfolio);
@@ -87,7 +87,7 @@ const PortfolioList: React.FC = () => {
   const handleDeletePortfolio = async (id: string) => {
     setLoading(true);
     try {
-      await PortfolioApiService.delete(id).then((_response) => {
+      await PortfolioApiService.delete(id).then(() => {
         getPortfolios();
       });
     } catch (err) {
@@ -146,7 +146,7 @@ const PortfolioList: React.FC = () => {
       valueFormatter: (params: any) => {
         try {
           return params.value;
-        } catch (e) {
+        } catch {
           return 'Invalid Date';
         }
       },

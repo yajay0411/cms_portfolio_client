@@ -12,28 +12,27 @@ const ConfirmationAccount: React.FC = () => {
   const code = getQueryParam('code');
 
   useEffect(() => {
-    console.log(code);
+    const confirmAccount = async () => {
+      try {
+        const { success, message } = await AuthApiService.confirmationAccount(
+          token as string,
+          code as string
+        );
+        if (!success) {
+          throw new Error(message);
+        }
+        goTo(PATH.login);
+      } catch (error) {
+        console.error('Error confirming account:', error);
+      }
+    };
+
     if (!token || !code) {
       console.error('Token or code is missing in the URL parameters.');
       return;
     }
-    ConfirmationAccount();
-  }, []);
-
-  const ConfirmationAccount = async () => {
-    try {
-      const { success, message } = await AuthApiService.confirmationAccount(
-        token as string,
-        code as string
-      );
-      if (!success) {
-        throw new Error(message);
-      }
-      goTo(PATH.login);
-    } catch (error) {
-      console.error('Error confirming account:', error);
-    }
-  };
+    confirmAccount();
+  }, [token, code, goTo]);
 
   return <>Confirmation</>;
 };

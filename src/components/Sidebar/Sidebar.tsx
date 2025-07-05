@@ -23,9 +23,12 @@ import { useAppContext } from '../../contexts/app.context';
 import { getRoutes } from '../../routes';
 import ConfirmModal from '../../core/ConfirmModal/ConfirmModal';
 import useAuth from '@hooks/useAuth';
-import { ThemeContext } from '../../contexts/theme.context';
 import AuthApiService from '../../services/api/auth.api.service';
 import useToaster from '../../core/Toaster/Toaster';
+import {
+  ThemeContext,
+  type ThemeContextType,
+} from '../../contexts/theme.context';
 
 type SidebarProps = {
   drawerWidthInput?: number;
@@ -76,7 +79,7 @@ export default function Sidebar({ drawerWidthInput = 240 }: SidebarProps) {
     }
   };
 
-  const themeContext = useContext(ThemeContext);
+  const themeContext = useContext(ThemeContext) as ThemeContextType;
 
   const routes = getRoutes(user);
   return (
@@ -164,8 +167,8 @@ export default function Sidebar({ drawerWidthInput = 240 }: SidebarProps) {
                   {/* Parent Menu Item */}
                   <ListItemButton
                     onClick={() => {
-                      hasChildren ? handleExpand(title) : null;
-                      isMobile && setOpen(false);
+                      if (hasChildren) handleExpand(title);
+                      if (isMobile) setOpen(false);
                     }}
                     {...(!hasChildren && { component: Link, to })}
                   >

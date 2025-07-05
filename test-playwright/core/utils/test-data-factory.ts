@@ -62,4 +62,33 @@ export class TestDataFactory {
       },
     ];
   }
+
+  static generateValidRegisterCredentials() {
+    return {
+      name: 'John Doe',
+      emailAddress: 'john.doe1@example.com',
+      phoneNumber: '9123456789',
+      password: 'Test@123',
+      consent: true,
+    };
+  }
+
+  static generateInvalidRegisterCredentials() {
+    return [
+      {
+        name: 'John Doe',
+        emailAddress: 'invalid-email',
+        phoneNumber: '+1234567890',
+        password: 'Test@123',
+        consent: true,
+      },
+      {
+        name: 'John Doe',
+        emailAddress: 'john.doe@example.com',
+        phoneNumber: 'invalid-phone',
+        password: 'weak',
+        consent: false,
+      },
+    ];
+  }
 }

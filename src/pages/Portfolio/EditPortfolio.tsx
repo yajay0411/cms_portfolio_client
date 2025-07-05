@@ -43,40 +43,40 @@ const EditPortfolio: React.FC = () => {
     },
   });
 
-  const getPortfolioDetails = async () => {
-    if (!id) return;
-
-    setIsLoading(true);
-    try {
-      const response = await PortfolioApiService.getById(id);
-      const portfolioData: PortfolioResponse = response.data;
-
-      // Set photo preview if available
-      if (portfolioData.landing_page_photo) {
-        setPhotoPreview([
-          {
-            isImage: true,
-            url: portfolioData.landing_page_photo,
-          },
-        ]);
-      }
-
-      methods.reset({
-        entity: portfolioData.entity,
-        name: portfolioData.name,
-        summary: portfolioData.summary,
-        landing_page_photo: null,
-      });
-    } catch (error) {
-      console.error('Failed to fetch portfolio details:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const getPortfolioDetails = async () => {
+      if (!id) return;
+
+      setIsLoading(true);
+      try {
+        const response = await PortfolioApiService.getById(id);
+        const portfolioData: PortfolioResponse = response.data;
+
+        // Set photo preview if available
+        if (portfolioData.landing_page_photo) {
+          setPhotoPreview([
+            {
+              isImage: true,
+              url: portfolioData.landing_page_photo,
+            },
+          ]);
+        }
+
+        methods.reset({
+          entity: portfolioData.entity,
+          name: portfolioData.name,
+          summary: portfolioData.summary,
+          landing_page_photo: null,
+        });
+      } catch (error) {
+        console.error('Failed to fetch portfolio details:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     getPortfolioDetails();
-  }, [id]);
+  }, [id, methods]);
 
   const onSubmit = (data: PortfolioFormData) => {
     setIsLoading(true);
@@ -97,7 +97,7 @@ const EditPortfolio: React.FC = () => {
 
     try {
       // Assuming your API service can handle FormData
-      PortfolioApiService.edit(id as string, formData).then((_response) => {
+      PortfolioApiService.edit(id as string, formData).then(() => {
         goTo(ADMIN_PATH.portfolio);
       });
     } catch (error) {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { useAppContext } from '../../contexts/app.context';
+import useAppContext from '../../hooks/useAppContext';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -27,29 +27,28 @@ const Dashboard: React.FC = () => {
 
   const { user } = useAppContext();
 
-  // Simulate data fetching
   useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        // This would be your actual API calls
+        // const userData = await fetchUserData();
+        // const portfolioData = await fetchPortfolioData();
+
+        // Simulated data
+        setStats({
+          totalUsers: 256,
+          totalPortfolios: 542,
+          activePortfolios: 389,
+          inactivePortfolios: 153,
+          userName: user?.name || 'User',
+        });
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      }
+    };
+
     fetchDashboardData();
-  }, []);
-
-  const fetchDashboardData = async () => {
-    try {
-      // This would be your actual API calls
-      // const userData = await fetchUserData();
-      // const portfolioData = await fetchPortfolioData();
-
-      // Simulated data
-      setStats({
-        totalUsers: 256,
-        totalPortfolios: 542,
-        activePortfolios: 389,
-        inactivePortfolios: 153,
-        userName: user?.name || 'User',
-      });
-    } catch (error) {
-      console.error('Error fetching dashboard data:', error);
-    }
-  };
+  }, [user]);
 
   // Get greeting based on time of day
   const getGreeting = () => {

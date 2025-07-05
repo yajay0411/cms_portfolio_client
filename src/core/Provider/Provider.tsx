@@ -4,7 +4,7 @@ import { SnackbarProvider } from 'notistack';
 
 import { AppProvider } from '../../contexts/app.context';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
-import { ThemeContextProvider } from '../../contexts/theme.context';
+import { ThemeContextProvider } from '@contexts/theme.context';
 
 interface IProviderProps {
   children: ReactNode;

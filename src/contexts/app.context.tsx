@@ -56,6 +56,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       setIsAuthenticated(true);
       setUser(userData);
     } catch (error) {
+      console.log(error);
       // Token is invalid, clear auth state
       logout();
     } finally {
