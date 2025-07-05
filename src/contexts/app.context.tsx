@@ -5,7 +5,7 @@ import React, {
   useContext,
   useCallback,
 } from 'react';
-import { User } from '@types/user';
+import { User } from '../types/user.type';
 import {
   getFromLS,
   setInLS,

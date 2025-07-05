@@ -6,7 +6,7 @@ import axios, {
   AxiosResponse,
 } from 'axios';
 import { clearAllStorage, getFromLS } from '@utils/browserStorage';
-import { User } from '@types/user';
+import { User } from '../types/user.type';
 import ROLES from '@constants/roles';
 import { EStorageKey } from '@constants/storage_key';
 import AuthApiService from '@services/api/auth.api.service';

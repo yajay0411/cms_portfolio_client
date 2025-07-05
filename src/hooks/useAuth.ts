@@ -1,6 +1,6 @@
 import { useAppContext } from '@contexts/app.context';
 import PATH from '@constants/path';
-import { User } from '@types/user';
+import { User } from '../types/user.type';
 import useNavigation from './useNavigation';
 import { clearAllStorage, setInLS } from '@utils/browserStorage';
 import { EStorageKey } from '@constants/storage_key';
