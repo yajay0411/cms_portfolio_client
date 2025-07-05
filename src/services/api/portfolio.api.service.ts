@@ -1,4 +1,4 @@
-import ApiService from '../../libs/Axios.Config';
+import ApiService from '@libs/Axios.Config';
 import api_endpoint from './api_endpoint';
 
 const PortfolioApiService = {

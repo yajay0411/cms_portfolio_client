@@ -17,11 +17,8 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
 import LoginForm from './LoginForm';
-import { LoginSchema } from '../../validations/auth.validation';
-import {
-  ThemeContext,
-  type ThemeContextType,
-} from '../../contexts/theme.context';
+import { LoginSchema } from '@validations/auth.validation';
+import { ThemeContext } from '@contexts/theme.context';
 
 const Login: FC = () => {
   const navigate = useNavigate();
@@ -30,7 +27,7 @@ const Login: FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const themeContext = useContext(ThemeContext) as ThemeContextType;
+  const themeContext = useContext(ThemeContext);
 
   const onSubmit = async (formData: LoginSchema) => {
     setIsLoading(true);

@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { useAppContext } from '../contexts/app.context';
+import { useAppContext } from '@contexts/app.context';
 
 function useNavigation() {
   const navigate = useNavigate();

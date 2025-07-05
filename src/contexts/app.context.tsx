@@ -5,15 +5,15 @@ import React, {
   useContext,
   useCallback,
 } from 'react';
-import { User } from '../types/user.type';
+import { User } from '@types/user';
 import {
   getFromLS,
   setInLS,
   getFromCS,
   clearAllStorage,
-} from '../utils/browserStorage';
-import { EStorageKey } from '../constants/storage_key';
-import AuthApiService from '../services/api/auth.api.service';
+} from '@utils/browserStorage';
+import { EStorageKey } from '@constants/storage_key';
+import AuthApiService from '@services/api/auth.api.service';
 
 interface AppContextInterface {
   isAuthenticated: boolean;

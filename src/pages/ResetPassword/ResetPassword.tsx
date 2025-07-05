@@ -23,7 +23,7 @@ import {
   ResetPasswordSchema,
   ResetPasswordSchemaYup,
 } from '../../validations/auth.validation';
-import { ThemeContext } from '../../contexts/theme.context';
+import { ThemeContext } from '@contexts/theme.context';
 
 const ResetPassword: React.FC = () => {
   const { token } = useParams<{ token: string }>();

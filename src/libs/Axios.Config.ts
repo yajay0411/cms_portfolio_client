@@ -5,11 +5,11 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from 'axios';
-import { clearAllStorage, getFromLS } from '../utils/browserStorage';
-import { User } from '../types/user.type';
-import ROLES from '../constants/roles';
-import { EStorageKey } from '../constants/storage_key';
-import AuthApiService from '../services/api/auth.api.service';
+import { clearAllStorage, getFromLS } from '@utils/browserStorage';
+import { User } from '@types/user';
+import ROLES from '@constants/roles';
+import { EStorageKey } from '@constants/storage_key';
+import AuthApiService from '@services/api/auth.api.service';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 

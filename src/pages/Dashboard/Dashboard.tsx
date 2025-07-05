@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
-import useAppContext from '../../hooks/useAppContext';
+import { useAppContext } from '@contexts/app.context';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';

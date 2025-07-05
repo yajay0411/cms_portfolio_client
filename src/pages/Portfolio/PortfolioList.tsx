@@ -20,7 +20,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import SearchIcon from '@mui/icons-material/Search';
 
-import { useAppContext } from '../../contexts/app.context';
+import { useAppContext } from '@contexts/app.context';
 
 const PortfolioList: React.FC = () => {
   const { user } = useAppContext();

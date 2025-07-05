@@ -1,11 +1,11 @@
 import React, { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 
-import ROLES from '@/constants/roles';
-import { ADMIN_PATH, USER_PATH } from '@/constants/path';
-import useNavigation from '@/hooks/useNavigation';
+import ROLES from '@constants/roles';
+import { ADMIN_PATH, USER_PATH } from '@constants/path';
+import useNavigation from '@hooks/useNavigation';
 
-import { useAppContext } from '../../contexts/app.context';
+import { useAppContext } from '@contexts/app.context';
 
 interface AuthRouteProps {
   element: ReactNode;

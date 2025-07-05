@@ -1,9 +1,9 @@
-import { useAppContext } from '../contexts/app.context';
-import PATH from '../constants/path';
-import { User } from '../types/user.type';
+import { useAppContext } from '@contexts/app.context';
+import PATH from '@constants/path';
+import { User } from '@types/user';
 import useNavigation from './useNavigation';
-import { clearAllStorage, setInLS } from '../utils/browserStorage';
-import { EStorageKey } from '../constants/storage_key';
+import { clearAllStorage, setInLS } from '@utils/browserStorage';
+import { EStorageKey } from '@constants/storage_key';
 
 const useAuth = () => {
   const { goTo } = useNavigation();

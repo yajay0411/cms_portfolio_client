@@ -19,16 +19,13 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { Link } from 'react-router-dom';
-import { useAppContext } from '../../contexts/app.context';
+import { useAppContext } from '@contexts/app.context';
 import { getRoutes } from '../../routes';
-import ConfirmModal from '../../core/ConfirmModal/ConfirmModal';
+import ConfirmModal from '@core/ConfirmModal/ConfirmModal';
 import useAuth from '@hooks/useAuth';
-import AuthApiService from '../../services/api/auth.api.service';
-import useToaster from '../../core/Toaster/Toaster';
-import {
-  ThemeContext,
-  type ThemeContextType,
-} from '../../contexts/theme.context';
+import AuthApiService from '@services/api/auth.api.service';
+import useToaster from '@core/Toaster/Toaster';
+import { ThemeContext } from '@contexts/theme.context';
 
 type SidebarProps = {
   drawerWidthInput?: number;
@@ -79,7 +76,7 @@ export default function Sidebar({ drawerWidthInput = 240 }: SidebarProps) {
     }
   };
 
-  const themeContext = useContext(ThemeContext) as ThemeContextType;
+  const themeContext = useContext(ThemeContext);
 
   const routes = getRoutes(user);
   return (

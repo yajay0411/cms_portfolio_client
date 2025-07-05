@@ -12,8 +12,8 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
 import RegisterForm from './RegisterForm';
-import { ThemeContext } from '../../contexts/theme.context';
-import { RegisterSchema } from '../../validations/auth.validation';
+import { ThemeContext } from '@contexts/theme.context';
+import { RegisterSchema } from '@validations/auth.validation';
 import { TEST_IDS } from '@constants/testIds';
 
 const Register: React.FC = () => {

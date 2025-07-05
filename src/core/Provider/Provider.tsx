@@ -2,8 +2,8 @@ import React, { ReactNode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 
-import { AppProvider } from '../../contexts/app.context';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import { AppProvider } from '@contexts/app.context';
+import ErrorBoundary from '@core/ErrorBoundary/ErrorBoundary';
 import { ThemeContextProvider } from '@contexts/theme.context';
 
 interface IProviderProps {

@@ -16,6 +16,11 @@
       "@services/*": ["services/*"],
       "@constants/*": ["constants/*"],
       "@contexts/*": ["contexts/*"],
+      "@types/*": ["types/*"],
+      "@utils/*": ["utils/*"],
+      "@validations/*": ["validations/*"],
+      "@libs/*": ["libs/*"],
+      "@shared/*": ["shared/*"],
       "@test_playwright/*": ["test_playwright/*"]
     },
 

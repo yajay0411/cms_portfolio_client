@@ -28,7 +28,7 @@ export class ConfigManager {
       path: './logs',
     },
     reporting: {
-      outputPath: './test-results',
+      outputPath: './test-results/All_Suites',
     },
   };
 

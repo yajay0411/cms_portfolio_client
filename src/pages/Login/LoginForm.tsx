@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-import { LoginSchema, LoginSchemaYup } from '../../validations/auth.validation';
+import { LoginSchema, LoginSchemaYup } from '@validations/auth.validation';
 
 interface LoginFormProps {
   onSubmit: ({ emailAddress, password }: LoginSchema) => void;

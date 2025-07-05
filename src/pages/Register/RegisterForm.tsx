@@ -16,7 +16,7 @@ import {
   RegisterSchema,
   RegisterSchemaYup,
 } from '../../validations/auth.validation';
-import { TEST_IDS } from '../../constants/testIds';
+import { TEST_IDS } from '@constants/testIds';
 
 interface RegisterFormProps {
   onSubmit: ({
@@ -151,7 +151,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading, onSubmit }) => {
             variant="contained"
             sx={{ mt: 4, fontWeight: 700 }}
             loading={isLoading}
-            data-testId={TEST_IDS.register.registerButton}
+            data-testid={TEST_IDS.register.registerButton}
           >
             Register
           </Button>

@@ -1,9 +1,9 @@
-import ROLES from './constants/roles';
+import ROLES from '@constants/roles';
 // import HomeIcon from '@mui/icons-material/Home';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { ADMIN_PATH, USER_PATH } from './constants/path';
+import { ADMIN_PATH, USER_PATH } from '@constants/path';
 
 interface Route {
   to: string;

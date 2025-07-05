@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import PATH from '@constants/path';
 import Loader from '@core/Loader/Loader';
 
-import { useAppContext } from '../../contexts/app.context';
+import { useAppContext } from '@contexts/app.context';
 
 // Components
 const Layout = lazy(() => import('../Layout/Layout'));
