@@ -27,22 +27,16 @@ const Register: React.FC = () => {
     setIsLoading(true);
     try {
       const formData = new FormData();
-
       formData.append('name', values.name);
       formData.append('emailAddress', values.emailAddress);
       formData.append('password', values.password);
       formData.append('phoneNumber', values.phoneNumber);
       formData.append('consent', values.consent ? 'true' : 'false');
-
-      // Only append the file if a new one was selected
       if (values.profile_image) {
         formData.append('profile_image', values.profile_image);
       }
-
       const { success, message } = await AuthService.register(formData);
-      if (!success) {
-        throw new Error(message);
-      }
+      if (!success) throw new Error(message);
       goTo(PATH.login);
       showToaster(message, { variant: 'success', CloseAction: true });
     } catch (error: any) {
@@ -54,6 +48,7 @@ const Register: React.FC = () => {
       setIsLoading(false);
     }
   };
+
   return (
     <>
       <Box

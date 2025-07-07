@@ -3,6 +3,7 @@ export const TEST_IDS = {
     emailInput: 'email-input',
     passwordInput: 'password-input',
     loginButton: 'login-button',
+    googleSigninButton: 'google-sign-in-button',
     forgotPasswordLink: 'forgot-password-link',
     signupLink: 'signup-link',
     themeToggle: 'theme-toggle',

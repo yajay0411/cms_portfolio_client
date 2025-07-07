@@ -63,6 +63,14 @@ const AuthApiService = {
       message: string;
     }>(api_endpoint.AUTH_API_ENDPOINT.RESET_PASSWORD(token), data);
   },
+
+  loginWithGoogle: async (credential: string) => {
+    return await ApiService.post<{
+      success: boolean;
+      data: any;
+      message: string;
+    }>(api_endpoint.AUTH_API_ENDPOINT.GOOGLE_LOGIN, { credential });
+  },
 };
 
 export default AuthApiService;

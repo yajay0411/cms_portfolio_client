@@ -76,6 +76,29 @@ const Login: FC = () => {
       setIsLoading(false);
     }
   };
+
+  const handleGoogleLogin = async (credentialResponse: any) => {
+    setIsLoading(true);
+    try {
+      const { success, data, message } =
+        await AuthService.loginWithGoogle(credentialResponse);
+      if (!success) throw new Error(message);
+      await onLogin({ user: data.user });
+      showToaster(message, { variant: 'success', CloseAction: true });
+      navigate(USER_PATH.portfolio);
+      showToaster('Google login successful', {
+        variant: 'success',
+        CloseAction: true,
+      });
+    } catch (error: any) {
+      showToaster(error.message || 'Google login failed', {
+        variant: 'error',
+        CloseAction: true,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <>
       {isLoading && <Loader loading={isLoading} fullScreen={true} />}
@@ -126,6 +149,7 @@ const Login: FC = () => {
         <LoginForm
           onSubmit={onSubmit}
           handleForgotPassword={handleForgotPassword}
+          handleGoogleLogin={handleGoogleLogin}
           isLoading={isLoading}
         />
       </Box>

@@ -8,6 +8,7 @@ export default {
     CONFIRMATION_ACCOUNT: (token: string) => `/auth/confirmation/${token}`,
     FORGET_PASSWORD: '/auth/forgot-password',
     RESET_PASSWORD: (token: string) => `/auth/reset-password/${token}`,
+    GOOGLE_LOGIN: '/auth/google',
   },
   USER_API_ENDPOINT: {
     GET_ALL_USER: '/user/',

@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Load environment variables (development only)
 if (process.env.VITE_ENVIRONMENT !== 'production') {
-  dotenv.config({ path: path.resolve(__dirname, '.env.dev') });
+  dotenv.config({ path: path.resolve(__dirname, '.env.development') });
 }
 
 export default defineConfig({

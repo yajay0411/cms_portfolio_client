@@ -500,4 +500,32 @@ test.describe('Login Page Tests', () => {
       }
     );
   });
+
+  test.only('should display and allow clicking Google Sign-In button', async ({
+    page,
+    context,
+    browserName,
+  }) => {
+    testService = new TestService({
+      page,
+      context,
+      browserName: browserName || 'chromium',
+      testName: 'login-google-signin-button',
+      testSuite: 'LoginSuite',
+    });
+
+    await testService.tryCatchHandler(
+      async () => {
+        const googleButton = testService.getLocator(
+          TEST_IDS.login.googleSigninButton
+        );
+        await expect(googleButton).toBeVisible();
+        await googleButton.click();
+      },
+      {
+        actionName: 'Google Sign-In button is visible and clickable',
+        captureEvidence: true,
+      }
+    );
+  });
 });

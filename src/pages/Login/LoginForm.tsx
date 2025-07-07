@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 
 import RHTextField from '@core/CustomFormInputs/RHTextField';
@@ -11,12 +11,17 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
+import { ThemeContext } from '@contexts/theme.context';
 
 import { LoginSchema, LoginSchemaYup } from '@validations/auth.validation';
+import { GoogleLogin } from '@react-oauth/google';
 
 interface LoginFormProps {
   onSubmit: ({ emailAddress, password }: LoginSchema) => void;
   handleForgotPassword: (emailAddress: string) => void;
+  handleGoogleLogin: (emailAddress: any) => void;
   isLoading: boolean;
 }
 
@@ -24,8 +29,10 @@ const LoginForm: React.FC<LoginFormProps> = ({
   isLoading,
   onSubmit,
   handleForgotPassword,
+  handleGoogleLogin,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const themeContext = useContext(ThemeContext);
 
   const methods = useForm({
     defaultValues: {
@@ -129,6 +136,46 @@ const LoginForm: React.FC<LoginFormProps> = ({
             Login
           </Button>
         </Tooltip>
+        {/* Divider */}
+        <Divider
+          sx={{
+            my: 3,
+            color: themeContext?.themeMode === 'dark' ? '#aaa' : '#888',
+            '&::before, &::after': {
+              borderColor: themeContext?.themeMode === 'dark' ? '#333' : '#ccc',
+            },
+          }}
+        >
+          or
+        </Divider>
+        {/* Google Login Button with themed background */}
+        <Box
+          data-testid={TEST_IDS.login.googleSigninButton}
+          sx={{
+            width: '100%',
+            boxShadow: '0 1px 4px #0004',
+          }}
+        >
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              handleGoogleLogin(credentialResponse);
+            }}
+            onError={() => {
+              handleGoogleLogin('Error');
+            }}
+            width="100%"
+            logo_alignment="left"
+            context="signin"
+            text="continue_with"
+            shape="rectangular"
+            locale="red"
+            theme={
+              themeContext?.themeMode === 'dark'
+                ? 'filled_black'
+                : 'filled_blue'
+            }
+          />
+        </Box>
       </form>
     </FormProvider>
   );

@@ -74,7 +74,7 @@ const PortfolioList: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [paginationModel, sortModel, searchTerm, filterModel, showToaster]);
+  }, [paginationModel, sortModel, searchTerm, filterModel]);
 
   const handleCreatePortfolio = async () => {
     goTo(Path.add_portfolio);
