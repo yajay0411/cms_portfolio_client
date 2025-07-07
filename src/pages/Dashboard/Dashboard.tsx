@@ -58,7 +58,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <Box sx={{ padding: 3 }}>
+    <Box>
       {/* Header with greeting */}
       <Stack
         display="flex"

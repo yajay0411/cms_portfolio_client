@@ -1,32 +1,41 @@
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-
 import Sidebar from '@components/Sidebar/Sidebar';
+import { Paper } from '@mui/material';
+import useIsMobile from '@hooks/useIsMobile';
 
 interface ILayoutProps {
   children: React.ReactNode;
 }
 
+const drawerWidth = 240;
+
 const Layout: React.FC<ILayoutProps> = ({ children }) => {
+  const isMobile = useIsMobile();
   return (
-    <Box sx={{ width: '100%', height: '100%' }}>
-      <Stack direction={'column'} p={2}>
-        <Sidebar />
+    <Box sx={{ display: 'flex', width: '100%', height: '100%' }}>
+      <Sidebar isMobile={isMobile} />
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          width: isMobile ? '100%' : `calc(100% - ${drawerWidth}px)`,
+          height: 'fit-content',
+          minHeight: '100%',
+          padding: isMobile ? ' 52px 8px 8px' : '16px',
+        }}
+      >
         <Paper
           sx={{
-            borderRadius: 2,
-            paddingX: 5,
-            paddingY: 2,
-            width: '100%',
-            height: '100%',
-            minHeight: '96vh',
+            padding: isMobile ? '8px' : '16px',
+            height: 'auto',
+            minHeight: isMobile ? '100vh' : '96vh',
           }}
         >
           {children}
         </Paper>
-      </Stack>
+      </Box>
     </Box>
   );
 };
+
 export default Layout;

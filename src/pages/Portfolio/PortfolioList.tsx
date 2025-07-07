@@ -192,7 +192,7 @@ const PortfolioList: React.FC = () => {
   ];
 
   return (
-    <Box sx={{ height: 650, width: '99%' }}>
+    <Box sx={{ height: 650, width: '100%' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <TextField
           placeholder="Search portfolios..."

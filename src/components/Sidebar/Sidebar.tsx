@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -27,22 +27,28 @@ import AuthApiService from '@services/api/auth.api.service';
 import useToaster from '@core/Toaster/Toaster';
 import { ThemeContext } from '@contexts/theme.context';
 
-type SidebarProps = {
-  drawerWidthInput?: number;
-};
+interface ISidebarProps {
+  isMobile: boolean;
+}
 
-export default function Sidebar({ drawerWidthInput = 240 }: SidebarProps) {
+export default function Sidebar({ isMobile }: ISidebarProps) {
   const { user } = useAppContext();
-  const isMobile = false;
   const { showToaster } = useToaster();
   const role = user?.role as string | undefined;
   const { onLogout } = useAuth();
-  const [open, setOpen] = useState(isMobile ? false : true);
-  const [drawerWidth, setDrawerWidth] = useState(drawerWidthInput);
+  const [open, setOpen] = useState(false);
+  const [drawerWidth, setDrawerWidth] = useState(isMobile ? 100 : 240);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>(
     {}
   );
+
+  useEffect(() => {
+    if (isMobile !== undefined) {
+      setOpen(isMobile ? false : true);
+      setDrawerWidth(isMobile ? 100 : 240);
+    }
+  }, [isMobile]);
 
   // Toggle sidebar
   const toggleDrawer = () => {

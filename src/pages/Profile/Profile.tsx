@@ -83,7 +83,7 @@ const Profile: React.FC = () => {
   // ];
 
   return (
-    <Box sx={{ maxWidth: 800, mx: 'auto', p: 2 }}>
+    <Box>
       <Typography variant="h4" fontWeight={600} mb={4}>
         Profile Settings
       </Typography>
