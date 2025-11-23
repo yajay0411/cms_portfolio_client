@@ -1,10 +1,4 @@
-import axios, {
-  AxiosError,
-  AxiosInstance,
-  InternalAxiosRequestConfig,
-  AxiosRequestConfig,
-  AxiosResponse,
-} from 'axios';
+import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { clearAllStorage, getFromLS } from '@utils/browserStorage';
 import { User } from '../types/user.type';
 import ROLES from '@constants/roles';
@@ -21,9 +15,9 @@ const api: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
   },
-  withCredentials: true,
+  withCredentials: true
 });
 
 // Request interceptor
@@ -43,11 +37,7 @@ api.interceptors.response.use(
     const originalRequest = error.config as ExtendedAxiosRequestConfig;
 
     // Handle 401 Unauthorized error with token refresh
-    if (
-      error.response?.status === 401 &&
-      originalRequest &&
-      !originalRequest._retry
-    ) {
+    if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
         const { success, message } = await AuthApiService.refreshToken();
@@ -85,11 +75,7 @@ api.interceptors.response.use(
 /**
  * Generic request function
  */
-const request = async <T>(
-  config: AxiosRequestConfig,
-  signal?: AbortSignal,
-  isFileUpload = false
-): Promise<T> => {
+const request = async <T>(config: AxiosRequestConfig, signal?: AbortSignal, isFileUpload = false): Promise<T> => {
   try {
     // Set content type for file uploads
     const requestConfig = { ...config };
@@ -97,7 +83,7 @@ const request = async <T>(
     if (isFileUpload) {
       requestConfig.headers = {
         ...requestConfig.headers,
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'multipart/form-data'
       };
     }
 
@@ -122,43 +108,16 @@ const ApiService = {
     return request<T>({ url, method: 'GET', params }, signal);
   },
 
-  post: <T>(
-    url: string,
-    data?: object,
-    config?: AxiosRequestConfig,
-    isFileUpload = false
-  ) =>
-    request<T>(
-      { url, method: 'POST', data, ...config },
-      undefined,
-      isFileUpload
-    ),
+  post: <T>(url: string, data?: object, config?: AxiosRequestConfig, isFileUpload = false) =>
+    request<T>({ url, method: 'POST', data, ...config }, undefined, isFileUpload),
 
-  put: <T>(
-    url: string,
-    data?: object,
-    config?: AxiosRequestConfig,
-    isFileUpload = false
-  ) =>
-    request<T>(
-      { url, method: 'PUT', data, ...config },
-      undefined,
-      isFileUpload
-    ),
+  put: <T>(url: string, data?: object, config?: AxiosRequestConfig, isFileUpload = false) =>
+    request<T>({ url, method: 'PUT', data, ...config }, undefined, isFileUpload),
 
-  delete: <T>(url: string, config?: AxiosRequestConfig) =>
-    request<T>({ url, method: 'DELETE', ...config }),
+  delete: <T>(url: string, config?: AxiosRequestConfig) => request<T>({ url, method: 'DELETE', ...config }),
 
-  uploadFile: <T>(
-    url: string,
-    formData: FormData,
-    config?: AxiosRequestConfig
-  ) =>
-    request<T>(
-      { url, method: 'POST', data: formData, ...config },
-      undefined,
-      true
-    ),
+  uploadFile: <T>(url: string, formData: FormData, config?: AxiosRequestConfig) =>
+    request<T>({ url, method: 'POST', data: formData, ...config }, undefined, true)
 };
 export default ApiService;
 export { api };

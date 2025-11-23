@@ -20,16 +20,14 @@ interface LoaderProps {
   height?: number | string; // Height for Skeleton
 }
 
-const ShimmerLoader: React.FC<LoaderProps> = ({
-  type = 'circular',
-  size = 40,
-  color = 'primary',
-  variant = 'text',
-  width = '100%',
-  height = 20,
-}) => {
+const ShimmerLoader: React.FC<LoaderProps> = ({ type = 'circular', size = 40, color = 'primary', variant = 'text', width = '100%', height = 20 }) => {
   if (type === 'circular') {
-    return <CircularProgress size={size} color={color} />;
+    return (
+      <CircularProgress
+        size={size}
+        color={color}
+      />
+    );
   }
 
   if (type === 'linear') {
@@ -37,7 +35,13 @@ const ShimmerLoader: React.FC<LoaderProps> = ({
   }
 
   if (type === 'skeleton') {
-    return <Skeleton variant={variant} width={width} height={height} />;
+    return (
+      <Skeleton
+        variant={variant}
+        width={width}
+        height={height}
+      />
+    );
   }
 
   return null;

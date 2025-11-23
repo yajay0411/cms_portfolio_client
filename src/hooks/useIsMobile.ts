@@ -6,19 +6,9 @@ const useIsMobile = () => {
   useEffect(() => {
     const checkIsMobile = () => {
       const userAgent = navigator.userAgent.toLowerCase();
-      const mobileKeywords = [
-        'android',
-        'webos',
-        'iphone',
-        'ipad',
-        'ipod',
-        'blackberry',
-        'windows phone',
-      ];
+      const mobileKeywords = ['android', 'webos', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone'];
 
-      const isMobileDevice = mobileKeywords.some((keyword) =>
-        userAgent.includes(keyword)
-      );
+      const isMobileDevice = mobileKeywords.some((keyword) => userAgent.includes(keyword));
 
       // Also check screen width for responsive design
       const isSmallScreen = window.innerWidth <= 768;

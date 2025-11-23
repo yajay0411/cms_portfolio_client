@@ -3,16 +3,12 @@ import api_endpoint from './api_endpoint';
 
 const UserApiService = {
   getAllUsers: async (params: string) => {
-    const response = await ApiService.get<{ data: any; message: string }>(
-      api_endpoint.USER_API_ENDPOINT.GET_ALL_USER + '?' + params
-    );
+    const response = await ApiService.get<{ data: any; message: string }>(api_endpoint.USER_API_ENDPOINT.GET_ALL_USER + '?' + params);
     return response;
   },
 
   getUserDetails: async (id: string) => {
-    const response = await ApiService.get<{ data: any; message: string }>(
-      api_endpoint.USER_API_ENDPOINT.GET_USER_BY_ID(id)
-    );
+    const response = await ApiService.get<{ data: any; message: string }>(api_endpoint.USER_API_ENDPOINT.GET_USER_BY_ID(id));
     return response;
   },
 
@@ -25,11 +21,9 @@ const UserApiService = {
   },
 
   deleteUser: async (id: string) => {
-    const response = await ApiService.delete<{ data: any; message: string }>(
-      api_endpoint.USER_API_ENDPOINT.DELETE_USER(id)
-    );
+    const response = await ApiService.delete<{ data: any; message: string }>(api_endpoint.USER_API_ENDPOINT.DELETE_USER(id));
     return response;
-  },
+  }
 };
 
 export default UserApiService;

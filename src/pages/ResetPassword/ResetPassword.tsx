@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -19,16 +19,15 @@ import Typography from '@mui/material/Typography';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-import {
-  ResetPasswordSchema,
-  ResetPasswordSchemaYup,
-} from '../../validations/auth.validation';
-import { ThemeContext } from '@contexts/theme.context';
+import { ResetPasswordSchema, ResetPasswordSchemaYup } from '../../validations/auth.validation';
+import { useThemeState } from '@contexts/theme/hooks/use-theme-state';
+import { useThemeActions } from '@contexts/theme/hooks/use-theme-actions';
 
 const ResetPassword: React.FC = () => {
   const { token } = useParams<{ token: string }>();
   const { goTo } = useNavigation();
-  const themeContext = useContext(ThemeContext);
+  const { themeMode } = useThemeState();
+  const { toggleTheme } = useThemeActions();
 
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -37,9 +36,9 @@ const ResetPassword: React.FC = () => {
   const methods = useForm({
     defaultValues: {
       password: '',
-      confirmPassword: '',
+      confirmPassword: ''
     },
-    resolver: yupResolver(ResetPasswordSchemaYup),
+    resolver: yupResolver(ResetPasswordSchemaYup)
   });
 
   const resetPasswordSubmit = async (formData: ResetPasswordSchema) => {
@@ -47,13 +46,10 @@ const ResetPassword: React.FC = () => {
     try {
       const { password } = formData;
       const payload = {
-        newPassword: password,
+        newPassword: password
       };
 
-      const { success, message } = await AuthApiService.resetPassword(
-        token as string,
-        payload
-      );
+      const { success, message } = await AuthApiService.resetPassword(token as string, payload);
       if (!success) {
         throw new Error(message);
       }
@@ -66,7 +62,12 @@ const ResetPassword: React.FC = () => {
   };
   return (
     <>
-      {isLoading && <Loader loading={isLoading} fullScreen={true} />}
+      {isLoading && (
+        <Loader
+          loading={isLoading}
+          fullScreen={true}
+        />
+      )}
       <Box
         id={'test'}
         sx={{
@@ -82,18 +83,23 @@ const ResetPassword: React.FC = () => {
           alignItems: 'stretch',
           bgcolor: 'background.paper',
           borderRadius: 2,
-          position: 'relative',
-        }}
-      >
-        <Typography color="primary" fontWeight={600} variant="h4" gutterBottom>
+          position: 'relative'
+        }}>
+        <Typography
+          color="primary"
+          fontWeight={600}
+          variant="h4"
+          gutterBottom>
           Reset password
         </Typography>
 
-        <Tooltip title="Toogle dark/light mode" arrow>
+        <Tooltip
+          title="Toogle dark/light mode"
+          arrow>
           <Switch
             color="primary"
-            checked={themeContext?.themeMode === 'dark' ? true : false}
-            onChange={() => themeContext?.toggleTheme()}
+            checked={themeMode === 'dark' ? true : false}
+            onChange={() => toggleTheme()}
             sx={{ position: 'absolute', top: 10, right: 10 }}
           />
         </Tooltip>
@@ -117,17 +123,12 @@ const ResetPassword: React.FC = () => {
                         modifiers: [
                           {
                             name: 'preventOverflow',
-                            enabled: true,
-                          },
-                        ],
-                      },
-                    }}
-                  >
-                    {showPassword ? (
-                      <VisibilityOffIcon color={'primary'} />
-                    ) : (
-                      <VisibilityIcon color={'primary'} />
-                    )}
+                            enabled: true
+                          }
+                        ]
+                      }
+                    }}>
+                    {showPassword ? <VisibilityOffIcon color={'primary'} /> : <VisibilityIcon color={'primary'} />}
                   </Tooltip>
                 }
                 iconPosition="end"
@@ -142,9 +143,7 @@ const ResetPassword: React.FC = () => {
                 type={showConfirmPassword ? 'text' : 'password'}
                 icon={
                   <Tooltip
-                    title={
-                      showConfirmPassword ? 'Hide password' : 'Show password'
-                    }
+                    title={showConfirmPassword ? 'Hide password' : 'Show password'}
                     arrow
                     slotProps={{
                       popper: {
@@ -152,17 +151,12 @@ const ResetPassword: React.FC = () => {
                         modifiers: [
                           {
                             name: 'preventOverflow',
-                            enabled: true,
-                          },
-                        ],
-                      },
-                    }}
-                  >
-                    {showConfirmPassword ? (
-                      <VisibilityOffIcon color={'primary'} />
-                    ) : (
-                      <VisibilityIcon color={'primary'} />
-                    )}
+                            enabled: true
+                          }
+                        ]
+                      }
+                    }}>
+                    {showConfirmPassword ? <VisibilityOffIcon color={'primary'} /> : <VisibilityIcon color={'primary'} />}
                   </Tooltip>
                 }
                 iconPosition="end"
@@ -170,15 +164,16 @@ const ResetPassword: React.FC = () => {
                 fullWidth
               />
             </Stack>
-            <Tooltip title="Reset password" arrow>
+            <Tooltip
+              title="Reset password"
+              arrow>
               <Button
                 fullWidth
                 size="large"
                 type="submit"
                 variant="contained"
                 sx={{ mt: 4, fontWeight: 700 }}
-                loading={isLoading}
-              >
+                loading={isLoading}>
                 Reset
               </Button>
             </Tooltip>

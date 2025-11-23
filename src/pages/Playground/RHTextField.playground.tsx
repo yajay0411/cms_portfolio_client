@@ -18,7 +18,10 @@ const RHTextFieldPlayground: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <Box component="form" onSubmit={handleSubmit(onSubmit)} p={3}>
+      <Box
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        p={3}>
         <Stack spacing={3}>
           {/* Text */}
           <RHTextField
@@ -30,9 +33,7 @@ const RHTextFieldPlayground: React.FC = () => {
             // validationRules={{ required: 'This field is required' }}
             onBlur={(e) => console.log('Blur event triggered', e)}
             onFocus={(e) => console.log('Focus event triggered', e)}
-            onChange={(e) =>
-              console.log('Change event triggered', e.target.value)
-            }
+            onChange={(e) => console.log('Change event triggered', e.target.value)}
           />
 
           {/* Email with icon */}
@@ -47,9 +48,7 @@ const RHTextFieldPlayground: React.FC = () => {
             // validationRules={{ required: 'This field is required' }}
             onBlur={(e) => console.log('Blur event triggered', e)}
             onFocus={(e) => console.log('Focus event triggered', e)}
-            onChange={(e) =>
-              console.log('Change event triggered', e.target.value)
-            }
+            onChange={(e) => console.log('Change event triggered', e.target.value)}
           />
 
           {/* Password with toggle visibility */}
@@ -64,9 +63,7 @@ const RHTextFieldPlayground: React.FC = () => {
             // validationRules={{ required: 'This field is required' }}
             onBlur={(e) => console.log('Blur event triggered', e)}
             onFocus={(e) => console.log('Focus event triggered', e)}
-            onChange={(e) =>
-              console.log('Change event triggered', e.target.value)
-            }
+            onChange={(e) => console.log('Change event triggered', e.target.value)}
           />
 
           {/* Number Input */}
@@ -79,9 +76,7 @@ const RHTextFieldPlayground: React.FC = () => {
             // validationRules={{ required: 'This field is required' }}
             onBlur={(e) => console.log('Blur event triggered', e)}
             onFocus={(e) => console.log('Focus event triggered', e)}
-            onChange={(e) =>
-              console.log('Change event triggered', e.target.value)
-            }
+            onChange={(e) => console.log('Change event triggered', e.target.value)}
           />
 
           {/* Date Picker */}
@@ -93,9 +88,7 @@ const RHTextFieldPlayground: React.FC = () => {
             // validationRules={{ required: 'This field is required' }}
             onBlur={(e) => console.log('Blur event triggered', e)}
             onFocus={(e) => console.log('Focus event triggered', e)}
-            onChange={(e) =>
-              console.log('Change event triggered', e.target.value)
-            }
+            onChange={(e) => console.log('Change event triggered', e.target.value)}
           />
 
           {/* File Upload */}
@@ -109,13 +102,11 @@ const RHTextFieldPlayground: React.FC = () => {
             fileInputOptions={{
               accept: '.jpeg,.jpg,.png',
               maxSize: 3 * 1024 * 1024, // 1 MB
-              multiple: false,
+              multiple: false
             }}
             onBlur={(e) => console.log('Blur event triggered', e)}
             onFocus={(e) => console.log('Focus event triggered', e)}
-            onChange={(e) =>
-              console.log('Change event triggered', e.target.value)
-            }
+            onChange={(e) => console.log('Change event triggered', e.target.value)}
           />
 
           <RHTextField
@@ -126,17 +117,18 @@ const RHTextFieldPlayground: React.FC = () => {
             fileInputOptions={{
               accept: '.pdf,.doc,.docx,application/pdf,.csv',
               maxSize: 5 * 1024 * 1024, // 5 MB
-              multiple: true,
+              multiple: true
             }}
             onBlur={(e) => console.log('Blur event triggered', e)}
             onFocus={(e) => console.log('Focus event triggered', e)}
-            onChange={(e) =>
-              console.log('Change event triggered', e.target.value)
-            }
+            onChange={(e) => console.log('Change event triggered', e.target.value)}
             enableDragDrop={true}
           />
 
-          <Button type="submit" variant="contained" color="primary">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary">
             Submit
           </Button>
         </Stack>

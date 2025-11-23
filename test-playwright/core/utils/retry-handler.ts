@@ -1,8 +1,4 @@
-export async function retry<T>(
-  operation: () => Promise<T>,
-  maxRetries: number = 3,
-  delayMs: number = 1000
-): Promise<T> {
+export async function retry<T>(operation: () => Promise<T>, maxRetries: number = 3, delayMs: number = 1000): Promise<T> {
   let attempt = 0;
   while (true) {
     try {

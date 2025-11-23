@@ -20,16 +20,16 @@ export class ConfigManager {
     retry: {
       maxAttempts: 3,
       baseDelay: 1000,
-      exponentialBackoff: true,
+      exponentialBackoff: true
     },
     logging: {
       level: 'info',
       toFile: false,
-      path: './logs',
+      path: './logs'
     },
     reporting: {
-      outputPath: './test-results/All_Suites',
-    },
+      outputPath: './test-results/All_Suites'
+    }
   };
 
   constructor(config: Partial<ConfigOptions> = {}) {
@@ -72,22 +72,22 @@ export class ConfigManager {
   }
 
   /**
-   * Merge two configuration objects
-   * @param target Target configuration
-   * @param source Source configuration to merge
-   * @returns Merged configuration
+   * Deeply merges two configuration objects.
+   * The `source` object overrides `target` values recursively.
    */
-  private mergeConfigs(
-    target: ConfigOptions,
-    source: Partial<ConfigOptions>
-  ): ConfigOptions {
-    const result = { ...target };
+  private mergeConfigs<T extends Record<string, any>>(target: T, source: Partial<T>): T {
+    const result: T = { ...target };
 
-    for (const key in source) {
-      if (source[key] instanceof Object && key in target) {
-        result[key] = this.mergeConfigs(target[key], source[key]);
-      } else {
-        result[key] = source[key];
+    for (const key of Object.keys(source) as Array<keyof T>) {
+      const sourceValue = source[key];
+      const targetValue = target[key];
+
+      if (sourceValue && typeof sourceValue === 'object' && !Array.isArray(sourceValue) && typeof targetValue === 'object' && targetValue !== null) {
+        // Recursively merge nested objects
+        result[key] = this.mergeConfigs(targetValue, sourceValue);
+      } else if (sourceValue !== undefined) {
+        // Override primitive or array values
+        result[key] = sourceValue as T[keyof T];
       }
     }
 
@@ -101,13 +101,7 @@ export class ConfigManager {
    * @returns The value at the path or undefined
    */
   private getNestedValue(obj: any, path: string): any {
-    return path
-      .split('.')
-      .reduce(
-        (current, key) =>
-          current && current[key] !== undefined ? current[key] : undefined,
-        obj
-      );
+    return path.split('.').reduce((current, key) => (current && current[key] !== undefined ? current[key] : undefined), obj);
   }
 
   /**

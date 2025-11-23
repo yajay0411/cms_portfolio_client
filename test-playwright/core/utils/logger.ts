@@ -18,14 +18,14 @@ const LEVELS: Record<LogLevel, number> = {
   error: 0,
   warn: 1,
   info: 2,
-  debug: 3,
+  debug: 3
 };
 
 const COLOR_MAP: Record<LogLevel, chalk.Chalk> = {
   error: chalk.red.bold,
   warn: chalk.yellow,
   info: chalk.cyan,
-  debug: chalk.gray,
+  debug: chalk.gray
 };
 
 export class Logger {
@@ -54,7 +54,7 @@ export class Logger {
   public error(message: string, error?: Error, metadata?: Metadata): void {
     const combinedMeta = {
       ...metadata,
-      ...(error ? { stack: error.stack } : {}),
+      ...(error ? { stack: error.stack } : {})
     };
     this.log('error', message, combinedMeta);
   }
@@ -70,16 +70,14 @@ export class Logger {
       timestamp: new Date().toISOString(),
       level: level.toUpperCase(),
       message,
-      metadata,
+      metadata
     };
 
     const coloredLevel = COLOR_MAP[level](`[${logEntry.level}]`);
     const coloredTimestamp = chalk.yellowBright(logEntry.timestamp);
     const consoleOutput =
       `${coloredTimestamp} ${coloredLevel} ${chalk.magentaBright(message)}` +
-      (Object.keys(metadata).length
-        ? ` ${chalk.gray(JSON.stringify(metadata))}`
-        : '');
+      (Object.keys(metadata).length ? ` ${chalk.gray(JSON.stringify(metadata))}` : '');
 
     if (level === 'error') {
       console.error(consoleOutput);

@@ -3,16 +3,12 @@ import api_endpoint from './api_endpoint';
 
 const PortfolioApiService = {
   get: async (params: string) => {
-    const response = await ApiService.get<{ data: any; message: string }>(
-      api_endpoint.PORTFOLIO_API_ENDPOINT.GET_PORTFOLIOS + '?' + params
-    );
+    const response = await ApiService.get<{ data: any; message: string }>(api_endpoint.PORTFOLIO_API_ENDPOINT.GET_PORTFOLIOS + '?' + params);
     return response;
   },
 
   getById: async (id: string) => {
-    const response = await ApiService.get<{ data: any; message: string }>(
-      api_endpoint.PORTFOLIO_API_ENDPOINT.GET_PORTFOLIO_BY_ID(id)
-    );
+    const response = await ApiService.get<{ data: any; message: string }>(api_endpoint.PORTFOLIO_API_ENDPOINT.GET_PORTFOLIO_BY_ID(id));
     return response;
   },
 
@@ -33,11 +29,9 @@ const PortfolioApiService = {
   },
 
   delete: async (id: string) => {
-    const response = await ApiService.delete<{ data: any; message: string }>(
-      api_endpoint.PORTFOLIO_API_ENDPOINT.DELETE_PORTFOLIO(id)
-    );
+    const response = await ApiService.delete<{ data: any; message: string }>(api_endpoint.PORTFOLIO_API_ENDPOINT.DELETE_PORTFOLIO(id));
     return response;
-  },
+  }
 };
 
 export default PortfolioApiService;

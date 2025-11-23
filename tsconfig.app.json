@@ -12,6 +12,7 @@
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],
       "@core/*": ["core/*"],
+      "@@config/*": ["config/*"],
       "@hooks/*": ["hooks/*"],
       "@services/*": ["services/*"],
       "@constants/*": ["constants/*"],
@@ -43,5 +44,5 @@
     "noUncheckedSideEffectImports": true
   },
   "type": "module",
-  "include": ["src", "test_playwright/core/utils/logger.ts"]
+  "include": ["src", "src/**/*.ts", "src/**/*.tsx"]
 }

@@ -1,7 +1,7 @@
 type Role = 'ADMIN' | 'MANAGER' | 'USER';
 
 export interface User {
-  phoneNumber: {
+  mobile: {
     isoCode: string;
     countryCode: string;
     internationalNumber: string;
@@ -19,7 +19,7 @@ export interface User {
   };
   _id: string;
   name: string;
-  emailAddress: string;
+  email: string;
   timezone: string;
   password: string;
   profile_image: string;

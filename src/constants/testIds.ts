@@ -3,13 +3,18 @@ export const TEST_IDS = {
     emailInput: 'email-input',
     passwordInput: 'password-input',
     loginButton: 'login-button',
+    mobileInput: 'mobile-input',
+    otpInput: 'otp-input',
+    otpSubmitButton: 'otp-submit-button',
     googleSigninButton: 'google-sign-in-button',
     forgotPasswordLink: 'forgot-password-link',
     signupLink: 'signup-link',
+    loginWithMobileLink: 'login-with-mobile-link',
+    loginWithEmailLink: 'login-with-email-link',
     themeToggle: 'theme-toggle',
     showPassword: 'show-password',
     hidePassword: 'hide-password',
-    snackbarForgotPassward: 'snackbar-forgot-password',
+    snackbarForgotPassward: 'snackbar-forgot-password'
   },
   register: {
     nameInput: 'name-input',
@@ -21,6 +26,6 @@ export const TEST_IDS = {
     registerButton: 'register-button',
     loginLink: 'login-link',
     themeToggle: 'theme-toggle',
-    snackbarUserEmailAlreadyExist: 'snackbar-user-email-already-exist',
-  },
+    snackbarUserEmailAlreadyExist: 'snackbar-user-email-already-exist'
+  }
 } as const;

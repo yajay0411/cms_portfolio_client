@@ -15,24 +15,21 @@ export const handlers = [
   http.post('/api/auth/login', async ({ request }) => {
     const body = (await request.json()) as AuthRequestBody;
 
-    if (
-      body.email === validUser.email &&
-      body.password === validUser.password
-    ) {
+    if (body.email === validUser.email && body.password === validUser.password) {
       return HttpResponse.json({
         user: {
           id: '1',
           email: validUser.email,
           firstName: 'Test',
-          lastName: 'User',
+          lastName: 'User'
         },
-        token: 'valid-jwt-token',
+        token: 'valid-jwt-token'
       });
     }
 
     return new HttpResponse(null, {
       status: 401,
-      statusText: 'Invalid credentials',
+      statusText: 'Invalid credentials'
     });
   }),
 
@@ -44,7 +41,7 @@ export const handlers = [
     if (body.email === validUser.email) {
       return new HttpResponse(null, {
         status: 409,
-        statusText: 'Email already exists',
+        statusText: 'Email already exists'
       });
     }
 
@@ -53,9 +50,9 @@ export const handlers = [
         id: '2',
         email: body.email,
         firstName: body.firstName,
-        lastName: body.lastName,
+        lastName: body.lastName
       },
-      token: 'valid-jwt-token',
+      token: 'valid-jwt-token'
     });
   }),
 
@@ -65,13 +62,13 @@ export const handlers = [
 
     if (body.email === validUser.email) {
       return HttpResponse.json({
-        message: 'Password reset email sent',
+        message: 'Password reset email sent'
       });
     }
 
     return new HttpResponse(null, {
       status: 404,
-      statusText: 'User not found',
+      statusText: 'User not found'
     });
-  }),
+  })
 ];

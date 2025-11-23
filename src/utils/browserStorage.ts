@@ -30,16 +30,39 @@ export const clearLS = (): void => {
   localStorage.clear();
 };
 
+// Session Storage
+export const getFromSS = <T>(key: string): T | null => {
+  try {
+    const item = sessionStorage.getItem(key);
+    return item ? JSON.parse(item) : null;
+  } catch (error) {
+    console.error(`Error getting item from sessionStorage [${key}]:`, error);
+    return null;
+  }
+};
+
+export const setInSS = <T>(key: string, value: T): void => {
+  try {
+    sessionStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.error(`Error setting item in sessionStorage [${key}]:`, error);
+  }
+};
+
+export const removeFromSS = (key: string): void => {
+  sessionStorage.removeItem(key);
+};
+
+export const clearSS = (): void => {
+  sessionStorage.clear();
+};
+
 // Cookie Storage
 export const getFromCS = <T extends string>(key: string): T | undefined => {
   return Cookies.get(key) as T | undefined;
 };
 
-export const setInCS = (
-  key: string,
-  value: string,
-  options?: CookieAttributes
-): void => {
+export const setInCS = (key: string, value: string, options?: CookieAttributes): void => {
   Cookies.remove(key);
   Cookies.set(key, value, options);
 };
@@ -56,5 +79,6 @@ export const clearCS = (): void => {
 // Combined operations
 export const clearAllStorage = (): void => {
   clearLS();
+  clearSS();
   clearCS();
 };

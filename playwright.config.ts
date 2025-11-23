@@ -16,16 +16,13 @@ export default defineConfig({
   testDir: process.env.VITE_TEST_PLAYWRIGHT_DIR || './test-playwright',
 
   /* Vite-specific settings */
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
 
   /* Vite-compatible reporter */
-  reporter: [
-    ['html', { outputFolder: 'test-reports' }],
-    process.env.CI ? ['github'] : ['list'],
-  ],
+  reporter: [['html', { outputFolder: 'test-reports' }], process.env.CI ? ['github'] : ['list']],
 
   use: {
     baseURL: process.env.VITE_CLIENT_BASE_URL,
@@ -36,15 +33,15 @@ export default defineConfig({
 
     trace: 'on-first-retry',
 
-    actionTimeout: 10_000,
+    actionTimeout: 10_000
   },
 
   /* Browser configurations */
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
+      use: { ...devices['Desktop Chrome'] }
+    }
     // {
     //   name: 'firefox',
     //   use: { ...devices['Desktop Firefox'] },
@@ -64,7 +61,7 @@ export default defineConfig({
     env: {
       // Ensure Vite uses test environment variables
       NODE_ENV: process.env.NODE_ENV || 'test',
-      VITE_APP_MODE: 'test',
-    },
-  },
+      VITE_APP_MODE: 'test'
+    }
+  }
 });

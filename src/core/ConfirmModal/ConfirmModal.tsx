@@ -34,7 +34,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   cancelText = 'Cancel',
   confirmIcon = <CheckIcon />,
   cancelIcon = <CloseIcon />,
-  actionsAlignment = 'right',
+  actionsAlignment = 'right'
 }) => {
   return (
     <Dialog
@@ -48,10 +48,12 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
         sx={{ fontSize: '20px', fontWeight: 700 }}
         display={'flex'}
         justifyContent={title ? 'space-between' : 'flex-end'}
-        alignItems={'center'}
-      >
+        alignItems={'center'}>
         {title && <span>{title}</span>}
-        <CloseIcon onClick={onClose} sx={{ cursor: 'pointer' }} />
+        <CloseIcon
+          onClick={onClose}
+          sx={{ cursor: 'pointer' }}
+        />
       </DialogTitle>
       <Divider />
       <DialogContent>{content}</DialogContent>
@@ -59,16 +61,13 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
       {showActions && (
         <DialogActions
           sx={{
-            justifyContent:
-              actionsAlignment === 'left'
-                ? 'flex-start'
-                : actionsAlignment === 'center'
-                  ? 'center'
-                  : 'flex-end',
-            padding: '16px 24px',
-          }}
-        >
-          <Button color="secondary" onClick={onClose} startIcon={cancelIcon}>
+            justifyContent: actionsAlignment === 'left' ? 'flex-start' : actionsAlignment === 'center' ? 'center' : 'flex-end',
+            padding: '16px 24px'
+          }}>
+          <Button
+            color="secondary"
+            onClick={onClose}
+            startIcon={cancelIcon}>
             {cancelText}
           </Button>
           {onConfirm && (
@@ -76,8 +75,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
               color="primary"
               variant="contained"
               onClick={onConfirm}
-              startIcon={confirmIcon}
-            >
+              startIcon={confirmIcon}>
               {confirmText}
             </Button>
           )}

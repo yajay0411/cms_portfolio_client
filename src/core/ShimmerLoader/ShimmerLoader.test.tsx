@@ -7,17 +7,13 @@ describe('ShimmerLoader', () => {
   describe('default rendering', () => {
     it('should render CircularProgress by default', () => {
       render(<ShimmerLoader />);
-      const circularLoader = document.querySelector(
-        '.MuiCircularProgress-root'
-      );
+      const circularLoader = document.querySelector('.MuiCircularProgress-root');
       expect(circularLoader).toBeInTheDocument();
     });
 
     it('should have proper aria role by default', () => {
       render(<ShimmerLoader />);
-      const circularLoader = document.querySelector(
-        '.MuiCircularProgress-root'
-      );
+      const circularLoader = document.querySelector('.MuiCircularProgress-root');
       expect(circularLoader).toHaveAttribute('role', 'progressbar');
     });
   });
@@ -26,9 +22,7 @@ describe('ShimmerLoader', () => {
   describe('loader types', () => {
     it('should render CircularProgress when type is circular', () => {
       render(<ShimmerLoader type="circular" />);
-      const circularLoader = document.querySelector(
-        '.MuiCircularProgress-root'
-      );
+      const circularLoader = document.querySelector('.MuiCircularProgress-root');
       expect(circularLoader).toBeInTheDocument();
     });
 
@@ -46,14 +40,10 @@ describe('ShimmerLoader', () => {
 
     it('should handle type changes dynamically', () => {
       const { rerender } = render(<ShimmerLoader type="circular" />);
-      expect(
-        document.querySelector('.MuiCircularProgress-root')
-      ).toBeInTheDocument();
+      expect(document.querySelector('.MuiCircularProgress-root')).toBeInTheDocument();
 
       rerender(<ShimmerLoader type="linear" />);
-      expect(
-        document.querySelector('.MuiLinearProgress-root')
-      ).toBeInTheDocument();
+      expect(document.querySelector('.MuiLinearProgress-root')).toBeInTheDocument();
     });
   });
 
@@ -61,27 +51,36 @@ describe('ShimmerLoader', () => {
   describe('CircularProgress customization', () => {
     it('should apply custom size to CircularProgress', () => {
       const customSize = 60;
-      render(<ShimmerLoader type="circular" size={customSize} />);
-      const circularLoader = document.querySelector(
-        '.MuiCircularProgress-root'
+      render(
+        <ShimmerLoader
+          type="circular"
+          size={customSize}
+        />
       );
+      const circularLoader = document.querySelector('.MuiCircularProgress-root');
       expect(circularLoader).toHaveStyle(`width: ${customSize}px`);
       expect(circularLoader).toHaveStyle(`height: ${customSize}px`);
     });
 
     it('should apply custom color to CircularProgress', () => {
-      render(<ShimmerLoader type="circular" color="secondary" />);
-      const circularLoader = document.querySelector(
-        '.MuiCircularProgress-colorSecondary'
+      render(
+        <ShimmerLoader
+          type="circular"
+          color="secondary"
+        />
       );
+      const circularLoader = document.querySelector('.MuiCircularProgress-colorSecondary');
       expect(circularLoader).toBeInTheDocument();
     });
 
     it('should handle extreme size values', () => {
-      render(<ShimmerLoader type="circular" size={1000} />);
-      const circularLoader = document.querySelector(
-        '.MuiCircularProgress-root'
+      render(
+        <ShimmerLoader
+          type="circular"
+          size={1000}
+        />
       );
+      const circularLoader = document.querySelector('.MuiCircularProgress-root');
       expect(circularLoader).toHaveStyle('width: 1000px');
     });
   });
@@ -89,10 +88,13 @@ describe('ShimmerLoader', () => {
   // Test customization for LinearProgress
   describe('LinearProgress customization', () => {
     it('should apply custom color to LinearProgress', () => {
-      render(<ShimmerLoader type="linear" color="secondary" />);
-      const linearLoader = document.querySelector(
-        '.MuiLinearProgress-colorSecondary'
+      render(
+        <ShimmerLoader
+          type="linear"
+          color="secondary"
+        />
       );
+      const linearLoader = document.querySelector('.MuiLinearProgress-colorSecondary');
       expect(linearLoader).toBeInTheDocument();
     });
 
@@ -113,33 +115,58 @@ describe('ShimmerLoader', () => {
   // Test customization for Skeleton
   describe('Skeleton customization', () => {
     it('should apply text variant to Skeleton', () => {
-      render(<ShimmerLoader type="skeleton" variant="text" />);
+      render(
+        <ShimmerLoader
+          type="skeleton"
+          variant="text"
+        />
+      );
       const skeletonLoader = document.querySelector('.MuiSkeleton-text');
       expect(skeletonLoader).toBeInTheDocument();
     });
 
     it('should apply rectangular variant to Skeleton', () => {
-      render(<ShimmerLoader type="skeleton" variant="rectangular" />);
+      render(
+        <ShimmerLoader
+          type="skeleton"
+          variant="rectangular"
+        />
+      );
       const skeletonLoader = document.querySelector('.MuiSkeleton-rectangular');
       expect(skeletonLoader).toBeInTheDocument();
     });
 
     it('should apply circular variant to Skeleton', () => {
-      render(<ShimmerLoader type="skeleton" variant="circular" />);
+      render(
+        <ShimmerLoader
+          type="skeleton"
+          variant="circular"
+        />
+      );
       const skeletonLoader = document.querySelector('.MuiSkeleton-circular');
       expect(skeletonLoader).toBeInTheDocument();
     });
 
     it('should apply custom width to Skeleton', () => {
       const customWidth = '75%';
-      render(<ShimmerLoader type="skeleton" width={customWidth} />);
+      render(
+        <ShimmerLoader
+          type="skeleton"
+          width={customWidth}
+        />
+      );
       const skeletonLoader = document.querySelector('.MuiSkeleton-root');
       expect(skeletonLoader).toHaveStyle(`width: ${customWidth}`);
     });
 
     it('should apply custom height to Skeleton', () => {
       const customHeight = 40;
-      render(<ShimmerLoader type="skeleton" height={customHeight} />);
+      render(
+        <ShimmerLoader
+          type="skeleton"
+          height={customHeight}
+        />
+      );
       const skeletonLoader = document.querySelector('.MuiSkeleton-root');
       expect(skeletonLoader).toHaveStyle(`height: ${customHeight}px`);
     });
@@ -147,8 +174,14 @@ describe('ShimmerLoader', () => {
     it('should handle multiple skeleton instances', () => {
       const { container } = render(
         <>
-          <ShimmerLoader type="skeleton" variant="text" />
-          <ShimmerLoader type="skeleton" variant="rectangular" />
+          <ShimmerLoader
+            type="skeleton"
+            variant="text"
+          />
+          <ShimmerLoader
+            type="skeleton"
+            variant="rectangular"
+          />
         </>
       );
       expect(container.querySelectorAll('.MuiSkeleton-root')).toHaveLength(2);
@@ -165,7 +198,10 @@ describe('ShimmerLoader', () => {
 
     it('should handle undefined props gracefully', () => {
       const { container } = render(
-        <ShimmerLoader type="circular" size={undefined} />
+        <ShimmerLoader
+          type="circular"
+          size={undefined}
+        />
       );
       expect(container.firstChild).toBeInTheDocument();
     });
@@ -173,9 +209,7 @@ describe('ShimmerLoader', () => {
     it('should handle component unmounting', () => {
       const { unmount } = render(<ShimmerLoader />);
       unmount();
-      expect(
-        document.querySelector('.MuiCircularProgress-root')
-      ).not.toBeInTheDocument();
+      expect(document.querySelector('.MuiCircularProgress-root')).not.toBeInTheDocument();
     });
   });
 
@@ -186,9 +220,7 @@ describe('ShimmerLoader', () => {
       const initialNode = document.querySelector('.MuiCircularProgress-root');
 
       rerender(<ShimmerLoader type="circular" />);
-      const rerenderedNode = document.querySelector(
-        '.MuiCircularProgress-root'
-      );
+      const rerenderedNode = document.querySelector('.MuiCircularProgress-root');
 
       expect(initialNode).toBe(rerenderedNode);
     });

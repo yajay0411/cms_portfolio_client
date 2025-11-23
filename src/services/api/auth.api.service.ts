@@ -3,7 +3,7 @@ import api_endpoint from './api_endpoint';
 
 const AuthApiService = {
   register: async (payload: any) => {
-    return await ApiService.uploadFile<{
+    return await ApiService.post<{
       success: boolean;
       data: any;
       message: string;
@@ -18,6 +18,14 @@ const AuthApiService = {
     }>(api_endpoint.AUTH_API_ENDPOINT.LOGIN, payload);
   },
 
+  loginWithMobileOtp: async (payload: any) => {
+    return await ApiService.post<{
+      success: boolean;
+      data: any;
+      message: string;
+    }>(api_endpoint.AUTH_API_ENDPOINT.LOGIN_WITH_MOBILE_OTP, payload);
+  },
+
   logout: async () => {
     return await ApiService.put<{
       success: boolean;
@@ -26,17 +34,10 @@ const AuthApiService = {
     }>(api_endpoint.AUTH_API_ENDPOINT.LOGOUT);
   },
 
-  selfIdentification: async () => {
-    return await ApiService.get<{
-      success: boolean;
-      data: any;
-      message: string;
-    }>(api_endpoint.AUTH_API_ENDPOINT.SELF_IDENTIFICATION);
-  },
-
   refreshToken: async () => {
     return await ApiService.get<{
       success: boolean;
+      data?: any;
       message: string;
     }>(api_endpoint.AUTH_API_ENDPOINT.REFRESH);
   },
@@ -45,9 +46,7 @@ const AuthApiService = {
     return await ApiService.put<{
       success: boolean;
       message: string;
-    }>(
-      `${api_endpoint.AUTH_API_ENDPOINT.CONFIRMATION_ACCOUNT(token)}?code=${code}`
-    );
+    }>(`${api_endpoint.AUTH_API_ENDPOINT.CONFIRMATION_ACCOUNT(token)}?code=${code}`);
   },
 
   forgotPassword: async (payload: any) => {
@@ -62,15 +61,7 @@ const AuthApiService = {
       success: boolean;
       message: string;
     }>(api_endpoint.AUTH_API_ENDPOINT.RESET_PASSWORD(token), data);
-  },
-
-  loginWithGoogle: async (credential: string) => {
-    return await ApiService.post<{
-      success: boolean;
-      data: any;
-      message: string;
-    }>(api_endpoint.AUTH_API_ENDPOINT.GOOGLE_LOGIN, { credential });
-  },
+  }
 };
 
 export default AuthApiService;

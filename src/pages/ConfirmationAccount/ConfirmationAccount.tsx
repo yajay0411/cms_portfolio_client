@@ -14,10 +14,7 @@ const ConfirmationAccount: React.FC = () => {
   useEffect(() => {
     const confirmAccount = async () => {
       try {
-        const { success, message } = await AuthApiService.confirmationAccount(
-          token as string,
-          code as string
-        );
+        const { success, message } = await AuthApiService.confirmationAccount(token as string, code as string);
         if (!success) {
           throw new Error(message);
         }

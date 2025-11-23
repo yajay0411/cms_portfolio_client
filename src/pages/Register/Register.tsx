@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import PATH from '@constants/path';
@@ -12,30 +12,23 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
 import RegisterForm from './RegisterForm';
-import { ThemeContext } from '@contexts/theme.context';
 import { RegisterSchema } from '@validations/auth.validation';
 import { TEST_IDS } from '@constants/testIds';
+import { useThemeActions } from '@contexts/theme/hooks/use-theme-actions';
+import { useThemeState } from '@contexts/theme/hooks/use-theme-state';
 
 const Register: React.FC = () => {
   const { goTo } = useNavigation();
   const { showToaster } = useToaster();
-  const themeContext = useContext(ThemeContext);
+  const { themeMode } = useThemeState();
+  const { toggleTheme } = useThemeActions();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (values: RegisterSchema) => {
     setIsLoading(true);
     try {
-      const formData = new FormData();
-      formData.append('name', values.name);
-      formData.append('emailAddress', values.emailAddress);
-      formData.append('password', values.password);
-      formData.append('phoneNumber', values.phoneNumber);
-      formData.append('consent', values.consent ? 'true' : 'false');
-      if (values.profile_image) {
-        formData.append('profile_image', values.profile_image);
-      }
-      const { success, message } = await AuthService.register(formData);
+      const { success, message } = await AuthService.register(values);
       if (!success) throw new Error(message);
       goTo(PATH.login);
       showToaster(message, { variant: 'success', CloseAction: true });
@@ -43,7 +36,7 @@ const Register: React.FC = () => {
       showToaster(error.message, {
         variant: 'error',
         CloseAction: true,
-        className: TEST_IDS.register.snackbarUserEmailAlreadyExist,
+        className: TEST_IDS.register.snackbarUserEmailAlreadyExist
       });
       setIsLoading(false);
     }
@@ -65,18 +58,30 @@ const Register: React.FC = () => {
           alignItems: 'stretch',
           bgcolor: 'background.paper',
           borderRadius: 2,
-          position: 'relative',
-        }}
-      >
-        <Typography color="primary" fontWeight={600} variant="h4" gutterBottom>
+          position: 'relative'
+        }}>
+        <Typography
+          color="primary"
+          fontWeight={600}
+          variant="h4"
+          gutterBottom>
           Sign up
         </Typography>
 
-        <Typography variant="body2" sx={{ mb: 5 }}>
+        <Typography
+          variant="body2"
+          sx={{ mb: 5 }}>
           Have an account?
-          <NavLink to={PATH.login} data-testid={TEST_IDS.register.loginLink}>
-            <Tooltip title="Go to Log in" arrow placement="top">
-              <Typography component={'span'} color="secondary">
+          <NavLink
+            to={PATH.login}
+            data-testid={TEST_IDS.register.loginLink}>
+            <Tooltip
+              title="Go to Log in"
+              arrow
+              placement="top">
+              <Typography
+                component={'span'}
+                color="secondary">
                 {' '}
                 Log in
               </Typography>
@@ -84,16 +89,21 @@ const Register: React.FC = () => {
           </NavLink>
         </Typography>
 
-        <Tooltip title="Toogle dark/light mode" arrow>
+        <Tooltip
+          title="Toogle dark/light mode"
+          arrow>
           <Switch
             color="primary"
-            checked={themeContext?.themeMode === 'dark' ? true : false}
-            onChange={() => themeContext?.toggleTheme()}
+            checked={themeMode === 'dark' ? true : false}
+            onChange={() => toggleTheme()}
             sx={{ position: 'absolute', top: 10, right: 10 }}
             data-testid={TEST_IDS.register.themeToggle}
           />
         </Tooltip>
-        <RegisterForm onSubmit={onSubmit} isLoading={isLoading} />
+        <RegisterForm
+          onSubmit={onSubmit}
+          isLoading={isLoading}
+        />
       </Box>
     </>
   );

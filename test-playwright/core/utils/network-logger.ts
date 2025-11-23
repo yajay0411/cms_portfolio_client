@@ -16,26 +16,14 @@ export class NetworkLogger {
   private logFilePath: string;
   private logs: NetworkLogEntry[] = [];
 
-  constructor(
-    outputPath: string = 'reports',
-    testSuite: string,
-    testCase: string
-  ) {
+  constructor(outputPath: string = 'reports', testSuite: string, testCase: string) {
     // Create the folder structure: reports/testSuite/testCase/network-calls
-    const testCasePath = path.join(
-      outputPath,
-      testSuite,
-      testCase,
-      'network-calls'
-    );
+    const testCasePath = path.join(outputPath, testSuite, testCase, 'network-calls');
 
     // Create directory structure
     fs.mkdirSync(testCasePath, { recursive: true });
 
-    this.logFilePath = path.join(
-      testCasePath,
-      `network-logs-${new Date().toISOString().replace(/[:.]/g, '-')}.json`
-    );
+    this.logFilePath = path.join(testCasePath, `network-logs-${new Date().toISOString().replace(/[:.]/g, '-')}.json`);
   }
 
   logNetworkCall(entry: NetworkLogEntry): void {
@@ -64,7 +52,7 @@ export class NetworkLogger {
       status: response.status(),
       requestBody,
       responseBody,
-      duration: Date.now() - startTime,
+      duration: Date.now() - startTime
     };
 
     this.logNetworkCall(entry);

@@ -1,4 +1,16 @@
 @use './assets/styles/reset';
 @use './assets/styles/variable';
-@use './assets/styles/global';
 @use './assets/styles/mixins';
+
+body {
+  transition:
+    background-color 0.5s ease-in-out,
+    color 0.2s ease-in-out;
+  font-family: $font-family;
+}
+
+#root,
+.app {
+  width: inherit;
+  height: inherit;
+}

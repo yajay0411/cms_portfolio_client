@@ -1,11 +1,6 @@
 import { ReactNode } from 'react';
 
-import {
-  useSnackbar,
-  OptionsObject,
-  SnackbarKey,
-  VariantType,
-} from 'notistack';
+import { useSnackbar, OptionsObject, SnackbarKey, VariantType } from 'notistack';
 
 import CancelIcon from '@mui/icons-material/Cancel';
 
@@ -19,15 +14,12 @@ interface SnackbarConfig extends OptionsObject {
 const useToaster = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const showToaster = (
-    message: string,
-    config?: SnackbarConfig
-  ): SnackbarKey => {
+  const showToaster = (message: string, config?: SnackbarConfig): SnackbarKey => {
     return enqueueSnackbar(message, {
       variant: config?.variant || 'default',
       anchorOrigin: config?.anchorOrigin || {
         vertical: 'top',
-        horizontal: 'right',
+        horizontal: 'right'
       },
       autoHideDuration: config?.autoHideDuration ?? 3000,
       preventDuplicate: config?.preventDuplicate ?? true,
@@ -42,15 +34,14 @@ const useToaster = () => {
               fontSize: '16px',
               cursor: 'pointer',
               marginLeft: '10px',
-              color: '#fff',
-            }}
-          >
+              color: '#fff'
+            }}>
             <CancelIcon />
           </button>
         ) : (
           config?.action
         ),
-      ...config,
+      ...config
     });
   };
 

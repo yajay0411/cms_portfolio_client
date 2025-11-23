@@ -1,10 +1,4 @@
-import React, {
-  ReactNode,
-  useState,
-  useCallback,
-  memo,
-  useEffect,
-} from 'react';
+import React, { ReactNode, useState, useCallback, memo, useEffect } from 'react';
 
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -120,9 +114,7 @@ const RHTextField: React.FC<RHTextFieldProps> = memo(
         if (!fileInputOptions) return true;
 
         if (fileInputOptions.accept) {
-          const allowedTypes = fileInputOptions.accept
-            .split(',')
-            .map((type) => type.trim());
+          const allowedTypes = fileInputOptions.accept.split(',').map((type) => type.trim());
           const isValidType = allowedTypes.some((type) => {
             if (type.startsWith('.')) {
               return file.name.toLowerCase().endsWith(type.toLowerCase());
@@ -134,17 +126,13 @@ const RHTextField: React.FC<RHTextFieldProps> = memo(
             return file.type === type;
           });
           if (!isValidType) {
-            setFileError(
-              `Invalid file type. Allowed: ${fileInputOptions.accept}`
-            );
+            setFileError(`Invalid file type. Allowed: ${fileInputOptions.accept}`);
             return false;
           }
         }
 
         if (fileInputOptions.maxSize && file.size > fileInputOptions.maxSize) {
-          setFileError(
-            `File size exceeds ${formatFileSize(fileInputOptions.maxSize)}`
-          );
+          setFileError(`File size exceeds ${formatFileSize(fileInputOptions.maxSize)}`);
           return false;
         }
 
@@ -168,7 +156,7 @@ const RHTextField: React.FC<RHTextFieldProps> = memo(
           name: file.name,
           type: file.type,
           isImage: isImageFile(file),
-          size: formatFileSize(file.size),
+          size: formatFileSize(file.size)
         }));
 
         setPreviews((prev) => {
@@ -185,10 +173,7 @@ const RHTextField: React.FC<RHTextFieldProps> = memo(
     );
 
     const handleFileChange = useCallback(
-      (
-        e: React.ChangeEvent<HTMLInputElement>,
-        fieldOnChange: (...event: any[]) => void
-      ) => {
+      (e: React.ChangeEvent<HTMLInputElement>, fieldOnChange: (...event: any[]) => void) => {
         const files = e.target.files;
         if (!files) {
           setPreviews([]);
@@ -201,17 +186,12 @@ const RHTextField: React.FC<RHTextFieldProps> = memo(
     );
 
     const handleDragDrop = useCallback(
-      (
-        e: React.DragEvent<HTMLDivElement>,
-        fieldOnChange: (...event: any[]) => void
-      ) => {
+      (e: React.DragEvent<HTMLDivElement>, fieldOnChange: (...event: any[]) => void) => {
         e.preventDefault();
         setIsDragActive(false);
         if (e.dataTransfer.files) {
           const droppedFiles = Array.from(e.dataTransfer.files);
-          const filesToProcess = fileInputOptions?.multiple
-            ? droppedFiles
-            : [droppedFiles[0]];
+          const filesToProcess = fileInputOptions?.multiple ? droppedFiles : [droppedFiles[0]];
           processFiles(filesToProcess, fieldOnChange);
         }
       },
@@ -230,17 +210,13 @@ const RHTextField: React.FC<RHTextFieldProps> = memo(
         control={control}
         defaultValue={defaultValue ?? ''}
         rules={validationRules}
-        render={({
-          field: { onChange: fieldOnChange, onBlur: fieldOnBlur, value, ref },
-          fieldState: { error },
-        }) => (
+        render={({ field: { onChange: fieldOnChange, onBlur: fieldOnBlur, value, ref }, fieldState: { error } }) => (
           <Box
             onDragOver={(e) => enableDragDrop && e.preventDefault()}
             onDragEnter={() => enableDragDrop && setIsDragActive(true)}
             onDragLeave={() => enableDragDrop && setIsDragActive(false)}
             onDrop={(e) => enableDragDrop && handleDragDrop(e, fieldOnChange)}
-            sx={{ width: '100%' }}
-          >
+            sx={{ width: '100%' }}>
             {type === 'checkbox' ? (
               <FormControlLabel
                 control={
@@ -271,8 +247,8 @@ const RHTextField: React.FC<RHTextFieldProps> = memo(
                 slotProps={
                   {
                     formHelperText: {
-                      'data-testid': `${testId}-error`,
-                    },
+                      'data-testid': `${testId}-error`
+                    }
                   } as ExtendedSlotProps
                 }
                 InputProps={{
@@ -280,8 +256,7 @@ const RHTextField: React.FC<RHTextFieldProps> = memo(
                     <InputAdornment position="end">
                       <IconButton
                         onClick={onIconClick}
-                        data-testid={`${testId}-icon`}
-                      >
+                        data-testid={`${testId}-icon`}>
                         {icon}
                       </IconButton>
                     </InputAdornment>
@@ -290,12 +265,11 @@ const RHTextField: React.FC<RHTextFieldProps> = memo(
                     <InputAdornment position="start">
                       <IconButton
                         onClick={onIconClick}
-                        data-testid={`${testId}-icon`}
-                      >
+                        data-testid={`${testId}-icon`}>
                         {icon}
                       </IconButton>
                     </InputAdornment>
-                  ),
+                  )
                 }}
                 onBlur={(e: any) => {
                   fieldOnBlur();
@@ -304,10 +278,7 @@ const RHTextField: React.FC<RHTextFieldProps> = memo(
                 onFocus={onFocus}
                 onChange={(e: any) => {
                   if (type === 'file') {
-                    handleFileChange(
-                      e as React.ChangeEvent<HTMLInputElement>,
-                      fieldOnChange
-                    );
+                    handleFileChange(e as React.ChangeEvent<HTMLInputElement>, fieldOnChange);
                     onChange?.(e);
                   } else {
                     fieldOnChange(e.target.value);
@@ -317,7 +288,7 @@ const RHTextField: React.FC<RHTextFieldProps> = memo(
                 inputProps={{
                   multiple: fileInputOptions?.multiple,
                   accept: fileInputOptions?.accept,
-                  'data-testid': testId,
+                  'data-testid': testId
                 }}
               />
             )}
@@ -333,21 +304,22 @@ const RHTextField: React.FC<RHTextFieldProps> = memo(
                   alignItems: 'center',
                   justifyContent: 'center',
                   opacity: 0.7,
-                  zIndex: 10,
+                  zIndex: 10
                 }}
-                data-testid={`${testId}-dropzone`}
-              >
+                data-testid={`${testId}-dropzone`}>
                 <Typography variant="h6">Drop files here...</Typography>
               </Paper>
             )}
             {type === 'file' && previews.length > 0 && (
-              <Stack spacing={1} mt={2} data-testid={`${testId}-previews`}>
+              <Stack
+                spacing={1}
+                mt={2}
+                data-testid={`${testId}-previews`}>
                 {previews.map((preview, index) => (
                   <Paper
                     key={index}
                     sx={{ p: 1 }}
-                    data-testid={`${testId}-preview-${index}`}
-                  >
+                    data-testid={`${testId}-preview-${index}`}>
                     {preview.name && (
                       <Typography variant="body2">
                         {preview.name} ({preview.size})

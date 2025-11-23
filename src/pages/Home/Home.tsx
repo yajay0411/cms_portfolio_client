@@ -8,9 +8,10 @@ export default function Home() {
         mt={1}
         display="flex"
         justifyContent="space-between"
-        alignItems="center"
-      >
-        <Typography variant="h3" fontWeight={700}>
+        alignItems="center">
+        <Typography
+          variant="h3"
+          fontWeight={700}>
           Home
         </Typography>
       </Box>

@@ -12,20 +12,11 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
-import {
-  RegisterSchema,
-  RegisterSchemaYup,
-} from '../../validations/auth.validation';
+import { RegisterSchema, RegisterSchemaYup } from '../../validations/auth.validation';
 import { TEST_IDS } from '@constants/testIds';
 
 interface RegisterFormProps {
-  onSubmit: ({
-    name,
-    emailAddress,
-    phoneNumber,
-    password,
-    profile_image,
-  }: RegisterSchema) => void;
+  onSubmit: ({ name, email, mobile, password, profile_image }: RegisterSchema) => void;
   isLoading: boolean;
 }
 const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading, onSubmit }) => {
@@ -34,12 +25,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading, onSubmit }) => {
   const methods = useForm({
     defaultValues: {
       name: '',
-      emailAddress: '',
+      email: '',
       password: '',
-      phoneNumber: '',
-      profile_image: null,
+      mobile: '',
+      profile_image: null
     },
-    resolver: yupResolver(RegisterSchemaYup),
+    resolver: yupResolver(RegisterSchemaYup)
     // mode: 'onChange',
   });
 
@@ -65,7 +56,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading, onSubmit }) => {
           />
           <RHTextField
             variant="outlined"
-            name="emailAddress"
+            name="email"
             label="Email address"
             placeholder="Enter email address"
             fullWidth
@@ -73,7 +64,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading, onSubmit }) => {
           />
           <RHTextField
             variant="outlined"
-            name="phoneNumber"
+            name="mobile"
             label="Phone Number"
             placeholder="Enter phone number"
             fullWidth
@@ -95,17 +86,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading, onSubmit }) => {
                     modifiers: [
                       {
                         name: 'preventOverflow',
-                        enabled: true,
-                      },
-                    ],
-                  },
-                }}
-              >
-                {showPassword ? (
-                  <VisibilityOffIcon color={'primary'} />
-                ) : (
-                  <VisibilityIcon color={'primary'} />
-                )}
+                        enabled: true
+                      }
+                    ]
+                  }
+                }}>
+                {showPassword ? <VisibilityOffIcon color={'primary'} /> : <VisibilityIcon color={'primary'} />}
               </Tooltip>
             }
             iconPosition="end"
@@ -123,7 +109,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading, onSubmit }) => {
             fileInputOptions={{
               accept: '.png, .jpg, .jpeg',
               maxSize: 5 * 1024 * 1024,
-              multiple: true,
+              multiple: true
             }}
             enableDragDrop={true}
             fullWidth
@@ -143,7 +129,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading, onSubmit }) => {
           />
         </Stack>
 
-        <Tooltip title="Register" arrow>
+        <Tooltip
+          title="Register"
+          arrow>
           <Button
             fullWidth
             size="large"
@@ -151,8 +139,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading, onSubmit }) => {
             variant="contained"
             sx={{ mt: 4, fontWeight: 700 }}
             loading={isLoading}
-            data-testid={TEST_IDS.register.registerButton}
-          >
+            data-testid={TEST_IDS.register.registerButton}>
             Register
           </Button>
         </Tooltip>

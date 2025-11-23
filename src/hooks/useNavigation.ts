@@ -1,11 +1,9 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { useAppContext } from '@contexts/app.context';
 
 function useNavigation() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useAppContext();
 
   const [history, setHistory] = useState<string[]>([]);
   const lastNavRef = useRef<number>(0); // timestamp tracker
@@ -61,13 +59,10 @@ function useNavigation() {
     return params.get(key);
   };
 
-  const getPreviousRoute = () =>
-    history.length > 1 ? history[history.length - 2] : '';
+  const getPreviousRoute = () => (history.length > 1 ? history[history.length - 2] : '');
 
   const canGoBack = history.length > 1;
-  const canGoForward =
-    typeof window !== 'undefined' &&
-    window.history.state?.idx < window.history.length - 1;
+  const canGoForward = typeof window !== 'undefined' && window.history.state?.idx < window.history.length - 1;
 
   return {
     currentPath: location.pathname,
@@ -82,8 +77,7 @@ function useNavigation() {
     reloadPage,
     canGoBack,
     canGoForward,
-    getPreviousRoute,
-    user,
+    getPreviousRoute
   };
 }
 

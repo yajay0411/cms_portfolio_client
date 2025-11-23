@@ -48,13 +48,7 @@ export interface LocatorOptions {
   /** Whether to find element by descendant selector */
   descendant?: string;
   /** Whether to find element by state */
-  state?:
-    | 'visible'
-    | 'hidden'
-    | 'enabled'
-    | 'disabled'
-    | 'checked'
-    | 'unchecked';
+  state?: 'visible' | 'hidden' | 'enabled' | 'disabled' | 'checked' | 'unchecked';
 }
 
 /**
@@ -95,8 +89,7 @@ export class TestService {
     testSuite: string;
     configManager?: ConfigManager;
   }) {
-    const { page, context, browserName, testName, testSuite, configManager } =
-      options;
+    const { page, context, browserName, testName, testSuite, configManager } = options;
     this.page = page;
     this.context = context;
     this.browserName = browserName;
@@ -104,10 +97,7 @@ export class TestService {
     this.testSuite = testSuite;
     this.configManager = configManager || new ConfigManager();
 
-    this.baseOutputPath = this.configManager.get(
-      'reporting.outputPath',
-      'reports'
-    );
+    this.baseOutputPath = this.configManager.get('reporting.outputPath', 'reports');
     const testCasePath = path.join(this.baseOutputPath, testSuite, testName);
 
     // Create main test case directory
@@ -121,14 +111,10 @@ export class TestService {
     this.logger = new Logger({
       logLevel: 'debug',
       logToFile: true,
-      logFilePath: path.join(testCasePath, 'console-logs'),
+      logFilePath: path.join(testCasePath, 'console-logs')
     });
 
-    this.networkLogger = new NetworkLogger(
-      this.baseOutputPath,
-      testSuite,
-      testName
-    );
+    this.networkLogger = new NetworkLogger(this.baseOutputPath, testSuite, testName);
   }
 
   /**
@@ -153,7 +139,7 @@ export class TestService {
     }
     if (options?.exactText) {
       locator = locator.filter({
-        hasText: new RegExp(`^${options.exactText}$`),
+        hasText: new RegExp(`^${options.exactText}$`)
       });
     }
     if (options?.containsText) {
@@ -261,7 +247,7 @@ export class TestService {
     const {
       actionName = 'Unnamed Action',
       captureEvidence: shouldCaptureEvidence = true,
-      retryOptions = { maxRetries: 0, baseDelay: 1000 },
+      retryOptions = { maxRetries: 0, baseDelay: 1000 }
     } = options;
 
     this.logger.info(`Executing action: ${actionName}`);
@@ -280,11 +266,7 @@ export class TestService {
               'screenshots',
               `${actionName.replace(/\s+/g, '_')}-success-${timestamp}.png`
             );
-            await captureFailureEvidence(
-              this.page,
-              screenshotPath,
-              this.logger
-            );
+            await captureFailureEvidence(this.page, screenshotPath, this.logger);
           }
         } catch (err: any) {
           this.logger.error(`Error in ${actionName}: ${err.message}`);
@@ -298,11 +280,7 @@ export class TestService {
               'screenshots',
               `${actionName.replace(/\s+/g, '_')}-error-${timestamp}.png`
             );
-            await captureFailureEvidence(
-              this.page,
-              screenshotPath,
-              this.logger
-            );
+            await captureFailureEvidence(this.page, screenshotPath, this.logger);
           }
 
           throw err;
@@ -320,17 +298,12 @@ export class TestService {
    * @param value Optional value for fill/type actions
    * @returns Promise that resolves when the input action completes
    */
-  async handleInput(
-    selector: string | Locator,
-    action: 'fill' | 'click' | 'type',
-    value?: string
-  ): Promise<void> {
-    const locator =
-      typeof selector === 'string' ? this.getLocator(selector) : selector;
+  async handleInput(selector: string | Locator, action: 'fill' | 'click' | 'type', value?: string): Promise<void> {
+    const locator = typeof selector === 'string' ? this.getLocator(selector) : selector;
 
     await locator.waitFor({
       state: 'visible',
-      timeout: 5000,
+      timeout: 5000
     });
 
     switch (action) {
@@ -357,10 +330,7 @@ export class TestService {
    * @param capture Whether to capture a screenshot of the highlighted element
    * @returns Promise that resolves when the highlight operation completes
    */
-  async debugHighlight(
-    testId: string,
-    capture: boolean = false
-  ): Promise<void> {
+  async debugHighlight(testId: string, capture: boolean = false): Promise<void> {
     const locator = this.getLocator(testId);
     const elementHandle = await locator.elementHandle();
 
@@ -374,7 +344,7 @@ export class TestService {
       el.scrollIntoView({
         behavior: 'auto',
         block: 'center',
-        inline: 'center',
+        inline: 'center'
       });
       el.setAttribute('data-highlight-temp', el.style.outline || '');
       el.style.outline = '3px solid red';
@@ -387,18 +357,10 @@ export class TestService {
     if (capture) {
       // Take screenshot
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const screenshotPath = path.join(
-        this.baseOutputPath,
-        this.testSuite,
-        this.testName,
-        'screenshots',
-        `${testId}-${timestamp}.png`
-      );
+      const screenshotPath = path.join(this.baseOutputPath, this.testSuite, this.testName, 'screenshots', `${testId}-${timestamp}.png`);
 
       await elementHandle.screenshot({ path: screenshotPath });
-      this.logger.debug(
-        `📸 Screenshot captured for: ${testId} -> ${screenshotPath}`
-      );
+      this.logger.debug(`📸 Screenshot captured for: ${testId} -> ${screenshotPath}`);
     }
 
     // Restore previous outline (if any)
@@ -414,12 +376,9 @@ export class TestService {
    * @param testIds Array of test IDs to highlight
    * @returns Promise that resolves when all elements are highlighted and screenshot is captured
    */
-  async highlightMultipleAndCapture(
-    testIds: (string | LocatorOptions)[]
-  ): Promise<void> {
+  async highlightMultipleAndCapture(testIds: (string | LocatorOptions)[]): Promise<void> {
     for (const id of testIds) {
-      const locator =
-        typeof id === 'string' ? this.getLocator(id) : this.getLocator('', id);
+      const locator = typeof id === 'string' ? this.getLocator(id) : this.getLocator('', id);
 
       await locator.waitFor({ state: 'visible', timeout: 10000 });
       const handle = await locator.elementHandle();
@@ -480,22 +439,14 @@ export class TestService {
       logResponse?: boolean;
     } = {}
   ): Promise<{ response: Response; body: any }> {
-    const {
-      method = 'GET',
-      status,
-      timeout = 20000,
-      logResponse = true,
-    } = options;
+    const { method = 'GET', status, timeout = 20000, logResponse = true } = options;
 
     this.logger.info(`Waiting for API call: ${method} ${urlPattern}`);
 
     const response = await this.page.waitForResponse(
       (res) => {
         const url = res.url();
-        const matchesUrl =
-          typeof urlPattern === 'string'
-            ? url.includes(urlPattern)
-            : urlPattern.test(url);
+        const matchesUrl = typeof urlPattern === 'string' ? url.includes(urlPattern) : urlPattern.test(url);
         const matchesMethod = res.request().method() === method;
         const matchesStatus = !status || res.status() === status;
         return matchesUrl && matchesMethod && matchesStatus;
@@ -518,7 +469,7 @@ export class TestService {
       url: response.url(),
       status: response.status(),
       method: response.request().method(),
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     });
 
     if (logResponse) {

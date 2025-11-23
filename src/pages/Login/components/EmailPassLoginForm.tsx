@@ -1,59 +1,48 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 
 import RHTextField from '@core/CustomFormInputs/RHTextField';
 import { TEST_IDS } from '@constants/testIds';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import Divider from '@mui/material/Divider';
-import Box from '@mui/material/Box';
-import { ThemeContext } from '@contexts/theme.context';
 
-import { LoginSchema, LoginSchemaYup } from '@validations/auth.validation';
-import { GoogleLogin } from '@react-oauth/google';
+import { EmailLoginSchema, EmailLoginSchemaYup, LoginSchema } from '@validations/auth.validation';
+import { Button } from '@mui/material';
 
 interface LoginFormProps {
-  onSubmit: ({ emailAddress, password }: LoginSchema) => void;
-  handleForgotPassword: (emailAddress: string) => void;
-  handleGoogleLogin: (emailAddress: any) => void;
+  onSubmit: ({ email, password, provider }: LoginSchema) => void;
+  handleForgotPassword: (email: string) => void;
   isLoading: boolean;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({
-  isLoading,
-  onSubmit,
-  handleForgotPassword,
-  handleGoogleLogin,
-}) => {
+const EmailPassLoginForm: React.FC<LoginFormProps> = ({ isLoading, onSubmit, handleForgotPassword }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const themeContext = useContext(ThemeContext);
 
   const methods = useForm({
     defaultValues: {
-      emailAddress: '',
-      password: '',
+      email: '',
+      password: ''
     },
-    resolver: yupResolver(LoginSchemaYup),
+    resolver: yupResolver(EmailLoginSchemaYup)
   });
 
   const { handleSubmit } = methods;
 
-  const onSubmitForm = (data: LoginSchema) => {
+  const onSubmitForm = (data: EmailLoginSchema) => {
     if (onSubmit) {
-      onSubmit(data);
+      onSubmit({ ...data, provider: 'EMAIL' });
     }
   };
 
   const handleForgotPasswordForm = async () => {
     if (handleForgotPassword) {
-      const emailAddress = methods.getValues('emailAddress');
-      handleForgotPassword(emailAddress);
+      const email = methods.getValues('email');
+      handleForgotPassword(email);
     }
   };
 
@@ -63,7 +52,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         <Stack spacing={3}>
           <RHTextField
             variant="outlined"
-            name="emailAddress"
+            name="email"
             label="Email address"
             placeholder="Enter email address"
             fullWidth
@@ -85,12 +74,11 @@ const LoginForm: React.FC<LoginFormProps> = ({
                     modifiers: [
                       {
                         name: 'preventOverflow',
-                        enabled: true,
-                      },
-                    ],
-                  },
-                }}
-              >
+                        enabled: true
+                      }
+                    ]
+                  }
+                }}>
                 {showPassword ? (
                   <VisibilityOffIcon
                     color={'primary'}
@@ -115,15 +103,16 @@ const LoginForm: React.FC<LoginFormProps> = ({
               sx={{
                 cursor: 'pointer',
                 color: 'primary.main',
-                marginTop: '8px !important',
+                marginTop: '8px !important'
               }}
-              data-testid={TEST_IDS.login.forgotPasswordLink}
-            >
+              data-testid={TEST_IDS.login.forgotPasswordLink}>
               Forgot password?
             </Typography>
           </Tooltip>
         </Stack>
-        <Tooltip title="Login in" arrow>
+        <Tooltip
+          title="Login in"
+          arrow>
           <Button
             fullWidth
             size="large"
@@ -131,54 +120,13 @@ const LoginForm: React.FC<LoginFormProps> = ({
             variant="contained"
             sx={{ mt: 4, fontWeight: 700 }}
             loading={isLoading}
-            data-testid={TEST_IDS.login.loginButton}
-          >
+            data-testid={TEST_IDS.login.loginButton}>
             Login
           </Button>
         </Tooltip>
-        {/* Divider */}
-        <Divider
-          sx={{
-            my: 3,
-            color: themeContext?.themeMode === 'dark' ? '#aaa' : '#888',
-            '&::before, &::after': {
-              borderColor: themeContext?.themeMode === 'dark' ? '#333' : '#ccc',
-            },
-          }}
-        >
-          or
-        </Divider>
-        {/* Google Login Button with themed background */}
-        <Box
-          data-testid={TEST_IDS.login.googleSigninButton}
-          sx={{
-            width: '100%',
-            boxShadow: '0 1px 4px #0004',
-          }}
-        >
-          <GoogleLogin
-            onSuccess={(credentialResponse) => {
-              handleGoogleLogin(credentialResponse);
-            }}
-            onError={() => {
-              handleGoogleLogin('Error');
-            }}
-            width="100%"
-            logo_alignment="left"
-            context="signin"
-            text="continue_with"
-            shape="rectangular"
-            locale="red"
-            theme={
-              themeContext?.themeMode === 'dark'
-                ? 'filled_black'
-                : 'filled_blue'
-            }
-          />
-        </Box>
       </form>
     </FormProvider>
   );
 };
 
-export default LoginForm;
+export default EmailPassLoginForm;

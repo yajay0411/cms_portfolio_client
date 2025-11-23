@@ -13,21 +13,10 @@ import {
   MoonLoader,
   PuffLoader,
   RingLoader,
-  SyncLoader,
+  SyncLoader
 } from 'react-spinners';
 
-export type LoaderType =
-  | 'clip'
-  | 'pulse'
-  | 'beat'
-  | 'bounce'
-  | 'fade'
-  | 'grid'
-  | 'hash'
-  | 'moon'
-  | 'puff'
-  | 'ring'
-  | 'sync';
+export type LoaderType = 'clip' | 'pulse' | 'beat' | 'bounce' | 'fade' | 'grid' | 'hash' | 'moon' | 'puff' | 'ring' | 'sync';
 
 interface LoaderProps {
   loading: boolean;
@@ -47,7 +36,7 @@ const Loader: React.FC<LoaderProps> = ({
   speedMultiplier = 1,
   fullScreen = false,
   text,
-  overlayTargetId = '',
+  overlayTargetId = ''
 }) => {
   const theme = useTheme();
   const targetElement = document.getElementById(overlayTargetId);
@@ -170,11 +159,8 @@ const Loader: React.FC<LoaderProps> = ({
     flexDirection: 'column' as const,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:
-      theme.palette.mode === 'dark'
-        ? 'rgba(0, 0, 0, 0.8)'
-        : 'rgba(255, 255, 255, 0.8)',
-    zIndex: 9999,
+    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+    zIndex: 9999
   };
 
   const loaderStyles = {
@@ -189,17 +175,17 @@ const Loader: React.FC<LoaderProps> = ({
     backdropFilter: 'blur(2px)',
     zIndex: 9999,
     borderRadius: theme.shape.borderRadius,
-    backgroundColor:
-      theme.palette.mode === 'dark'
-        ? 'rgba(0, 0, 0, 0.8)'
-        : 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)'
   };
 
   return fullScreen ? (
     <Box sx={loaderContainerStyles}>
       {getLoaderComponent()}
       {text && (
-        <Typography component={'p'} color="primary" sx={{ mt: 2 }}>
+        <Typography
+          component={'p'}
+          color="primary"
+          sx={{ mt: 2 }}>
           {text}
         </Typography>
       )}
@@ -208,7 +194,10 @@ const Loader: React.FC<LoaderProps> = ({
     <Box sx={loaderStyles}>
       {getLoaderComponent()}
       {text && (
-        <Typography component={'p'} color="primary" sx={{ mt: 2 }}>
+        <Typography
+          component={'p'}
+          color="primary"
+          sx={{ mt: 2 }}>
           {text}
         </Typography>
       )}

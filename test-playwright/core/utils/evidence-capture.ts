@@ -1,11 +1,7 @@
 import { Page } from 'playwright';
 import { Logger } from './logger';
 
-export async function captureFailureEvidence(
-  page: Page,
-  screenshotPath: string,
-  Logger: Logger
-): Promise<void> {
+export async function captureFailureEvidence(page: Page, screenshotPath: string, Logger: Logger): Promise<void> {
   try {
     await page.waitForLoadState('load');
     await page.waitForLoadState('networkidle');

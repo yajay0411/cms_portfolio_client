@@ -3,9 +3,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-import { AppProvider } from '@contexts/app.context';
-import ErrorBoundary from '@core/ErrorBoundary/ErrorBoundary';
-import { ThemeContextProvider } from '@contexts/theme.context';
+import { ThemeContextProvider } from '@contexts/theme/theme-provider';
+import { AuthContextProvider } from '@contexts/auth/auth-provider';
+import { ErrorBoundaryWrapper } from '@core/ErrorBoundary/ErrorBoundary';
+import { AppConfig } from '@config/configuration';
 
 interface IProviderProps {
   children: ReactNode;
@@ -13,19 +14,17 @@ interface IProviderProps {
 
 const Provider: React.FC<IProviderProps> = ({ children }) => {
   return (
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID!}>
-      <ErrorBoundary>
+    <ErrorBoundaryWrapper>
+      <GoogleOAuthProvider clientId={AppConfig.GOOGLE_CLIENT_ID}>
         <BrowserRouter>
-          <SnackbarProvider
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          >
+          <SnackbarProvider anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
             <ThemeContextProvider>
-              <AppProvider>{children}</AppProvider>
+              <AuthContextProvider>{children}</AuthContextProvider>
             </ThemeContextProvider>
           </SnackbarProvider>
         </BrowserRouter>
-      </ErrorBoundary>
-    </GoogleOAuthProvider>
+      </GoogleOAuthProvider>
+    </ErrorBoundaryWrapper>
   );
 };
 
