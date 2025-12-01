@@ -17,7 +17,7 @@ import EmailPassLoginForm from './components/EmailPassLoginForm';
 import { LoginSchema } from '@validations/auth.validation';
 import MobileOtpLoginForm from './components/MobileOtpLoginForm';
 import { Button, Divider } from '@mui/material';
-import { EmailRounded, MobileFriendlyRounded } from '@mui/icons-material';
+import { EmailRounded, VerifiedUser } from '@mui/icons-material';
 import GoogleOAuthLoginFrom from './components/GoogleOAuthLoginFrom';
 import { useThemeActions } from '@contexts/theme/hooks/use-theme-actions';
 import { useThemeState } from '@contexts/theme/hooks/use-theme-state';
@@ -53,12 +53,12 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleRequestOtp = async (mobile: string) => {
-    if (!mobile) return false;
+  const handleRequestOtp = async (contact: string) => {
+    if (!contact) return false;
     setIsLoading(true);
     try {
-      const { success, message } = await AuthApiService.loginWithMobileOtp({
-        mobile
+      const { success, message } = await AuthApiService.requestLoginOtp({
+        contact
       });
       if (!success) throw new Error(message);
       showToaster(message || 'OTP sent successfully', {
@@ -209,8 +209,8 @@ const Login: React.FC = () => {
             color={formType === 'otp' ? 'primary' : 'secondary'}
             onClick={() => setFormType('otp')}
             data-testid={TEST_IDS.login.loginWithMobileLink}>
-            <MobileFriendlyRounded sx={{ fontSize: 16, mr: 1 }} />
-            Mobile
+            <VerifiedUser sx={{ fontSize: 16, mr: 1 }} />
+            OTP
           </Button>
         </Box>
 

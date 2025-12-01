@@ -6,7 +6,19 @@ export const LoginSchemaYup = yup.object().shape({
   provider: yup.string().required('Provider is required').oneOf(['EMAIL', 'MOBILE']),
   email: yup.string().email('Please enter a valid email address'),
   password: yup.string().min(6, 'Please enter at least 6 characters'),
-  mobile: yup.string().min(10, 'Please enter a valid mobile number'),
+  contact: yup
+    .string()
+    .required('Please enter your email or mobile number')
+    .test('is-valid-email-or-mobile', 'Please enter a valid email or 10-digit mobile number', (value) => {
+      if (!value) return false;
+
+      const trimmed = value.trim();
+
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed);
+      const isMobile = /^[0-9]{10}$/.test(trimmed);
+
+      return isEmail || isMobile;
+    }),
   otp: yup.string().min(6, 'Please enter a valid OTP')
 });
 export type LoginSchema = yup.InferType<typeof LoginSchemaYup>;
@@ -18,12 +30,36 @@ export const EmailLoginSchemaYup = yup.object().shape({
 export type EmailLoginSchema = yup.InferType<typeof EmailLoginSchemaYup>;
 
 export const MobileLoginSchemaYup = yup.object().shape({
-  mobile: yup.string().required('Please enter your mobile number').min(10, 'Please enter a valid mobile number')
+  contact: yup
+    .string()
+    .required('Please enter your email or mobile number')
+    .test('is-valid-email-or-mobile', 'Please enter a valid email or 10-digit mobile number', (value) => {
+      if (!value) return false;
+
+      const trimmed = value.trim();
+
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed);
+      const isMobile = /^[0-9]{10}$/.test(trimmed);
+
+      return isEmail || isMobile;
+    })
 });
 export type MobileLoginSchema = yup.InferType<typeof MobileLoginSchemaYup>;
 
 export const MobileOtpSchemaYup = yup.object().shape({
-  mobile: yup.string().required('Please enter your mobile number').min(10, 'Please enter a valid mobile number'),
+  contact: yup
+    .string()
+    .required('Please enter your email or mobile number')
+    .test('is-valid-email-or-mobile', 'Please enter a valid email or 10-digit mobile number', (value) => {
+      if (!value) return false;
+
+      const trimmed = value.trim();
+
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed);
+      const isMobile = /^[0-9]{10}$/.test(trimmed);
+
+      return isEmail || isMobile;
+    }),
   otp: yup.string().required('Please enter your OTP').min(6, 'Please enter a valid OTP')
 });
 export type MobileOtpSchema = yup.InferType<typeof MobileOtpSchemaYup>;

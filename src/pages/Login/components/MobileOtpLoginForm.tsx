@@ -15,8 +15,8 @@ import { LoginSchema, MobileLoginSchemaYup, MobileOtpSchemaYup } from '@validati
 import { Button } from '@mui/material';
 
 interface LoginFormProps {
-  onRequestOtp: (mobile: string) => Promise<boolean | void>;
-  onSubmit: ({ mobile, otp, provider }: LoginSchema) => void;
+  onRequestOtp: (contact: string) => Promise<boolean | void>;
+  onSubmit: ({ contact, otp, provider }: LoginSchema) => void;
   isLoading: boolean;
 }
 
@@ -27,7 +27,7 @@ const MobileOtpLoginForm: React.FC<LoginFormProps> = ({ onRequestOtp, onSubmit, 
 
   const methods = useForm<any>({
     defaultValues: {
-      mobile: '',
+      contact: '',
       otp: ''
     },
     resolver: yupResolver(MobileLoginSchemaYup)
@@ -36,9 +36,9 @@ const MobileOtpLoginForm: React.FC<LoginFormProps> = ({ onRequestOtp, onSubmit, 
   const { handleSubmit, getValues, reset, setError, clearErrors } = methods;
 
   const onSubmitForm = async () => {
-    const { mobile } = getValues();
+    const { contact } = getValues();
     if (!isOTPSent) {
-      const ok = await onRequestOtp(mobile);
+      const ok = await onRequestOtp(contact);
       if (ok !== false) {
         setIsOTPSent(true);
         setTimer(60);
@@ -49,18 +49,18 @@ const MobileOtpLoginForm: React.FC<LoginFormProps> = ({ onRequestOtp, onSubmit, 
     try {
       clearErrors('otp');
       const combinedOtp = otpDigits.join('');
-      await MobileOtpSchemaYup.validate({ mobile, otp: combinedOtp }, { abortEarly: false });
+      await MobileOtpSchemaYup.validate({ contact, otp: combinedOtp }, { abortEarly: false });
     } catch (err: any) {
       const first = err?.errors?.[0] || 'Please enter a valid OTP';
       setError('otp', { type: 'manual', message: first });
       return;
     }
-    onSubmit({ mobile, otp: otpDigits.join(''), provider: 'MOBILE' });
+    onSubmit({ contact, otp: otpDigits.join(''), provider: 'OTP' });
   };
 
   const handleReset = () => {
     setIsOTPSent(false);
-    reset({ mobile: getValues('mobile') || '', otp: '' });
+    reset({ contact: getValues('contact') || '', otp: '' });
     setOtpDigits(['', '', '', '', '', '']);
     setTimer(0);
   };
@@ -135,9 +135,9 @@ const MobileOtpLoginForm: React.FC<LoginFormProps> = ({ onRequestOtp, onSubmit, 
         <Stack spacing={3}>
           <RHTextField
             variant="outlined"
-            name="mobile"
-            label="Mobile number"
-            placeholder="Enter mobile number"
+            name="contact"
+            label="Email/Mobile number"
+            placeholder="Enter email/mobile number"
             fullWidth
             disabled={isOTPSent}
             icon={

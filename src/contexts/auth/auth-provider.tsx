@@ -5,7 +5,7 @@ import { AuthState, AuthStateContext, IUser } from './auth-state-context';
 
 import { AuthActions, AuthActionsContext } from './auth-actions-context';
 import { EStorageKey } from '@constants/storage_key';
-import { clearAllStorage, setInLS } from '@utils/browserStorage';
+import { clearCS, removeFromLS, setInLS } from '@utils/browserStorage';
 import PATH from '@constants/path';
 import useNavigation from '@hooks/useNavigation';
 
@@ -24,7 +24,8 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         setUser(parsedUser);
         setIsAuthenticated(true);
       } catch {
-        clearAllStorage();
+        removeFromLS(EStorageKey.USER_KEY);
+        clearCS();
       }
     }
   }, []);
@@ -48,7 +49,8 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const logout = async () => {
     setUser(null);
     setIsAuthenticated(false);
-    clearAllStorage();
+    removeFromLS(EStorageKey.USER_KEY);
+    clearCS();
     goTo(PATH.login);
   };
 

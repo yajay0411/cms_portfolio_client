@@ -18,16 +18,16 @@ const AuthApiService = {
     }>(api_endpoint.AUTH_API_ENDPOINT.LOGIN, payload);
   },
 
-  loginWithMobileOtp: async (payload: any) => {
+  requestLoginOtp: async (payload: any) => {
     return await ApiService.post<{
       success: boolean;
       data: any;
       message: string;
-    }>(api_endpoint.AUTH_API_ENDPOINT.LOGIN_WITH_MOBILE_OTP, payload);
+    }>(api_endpoint.AUTH_API_ENDPOINT.REQUEST_LOGIN_OTP, payload);
   },
 
   logout: async () => {
-    return await ApiService.put<{
+    return await ApiService.post<{
       success: boolean;
       data: any;
       message: string;

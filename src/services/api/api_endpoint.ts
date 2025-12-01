@@ -2,7 +2,7 @@ export default {
   AUTH_API_ENDPOINT: {
     REGISTER: '/auth/register',
     LOGIN: '/auth/login',
-    LOGIN_WITH_MOBILE_OTP: '/auth/login/mobile-otp',
+    REQUEST_LOGIN_OTP: '/auth/login/request-otp',
     LOGOUT: '/auth/logout',
     REFRESH: '/auth/refresh-token',
     CONFIRMATION_ACCOUNT: (token: string) => `/auth/confirmation/${token}`,
